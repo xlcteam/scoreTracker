@@ -4,31 +4,30 @@ window.secs = 0;
 window.halftime = 1;
 
 function showD() {
-    window.finished = true;
+  window.finished = true;
 	$('#dialogMain').show();    
 	$("#dialog").dialog({ buttons: {
 				 "Send results": function() { 
-                        var df = confirm("Are you sure to send results?");
-                          if(df){
-                            $.post(window.update_url, 
-                                {action: 'finish', 
-                                    team1goals: $('#team1').text(),
-                                    team2goals: $('#team2').text(),},
-                                function(data) {
-                                    $(this).dialog("close"); 
-				                    $('#dialogMain').hide();
-                                    window.location = window.back_url; 
-                                }
-                            );
-                          }else{
-                            return;
-                          }
-                              
-                        
-					
-				}	
-			}
+            var df = confirm("Are you sure to send results?");
+              if(df){
+                $.post(window.update_url, 
+                    {action: 'finish', 
+                        team1goals: $('#team1').text(),
+                        team2goals: $('#team2').text(),
+                    },
+                    function(data) {
+                        $(this).dialog("close"); 
+                        $('#dialogMain').hide();
+                        window.location = window.back_url; 
+                    }
+                );
+              }else{
+                return;
+              }
+				    }	
+	        }
 	});
+
 	$('#dname').html($('#name1').text());
 	$('#d2name').html($('#name2').text());
 	$('#dgoals').val($('#team1').text());
@@ -54,52 +53,52 @@ function toggleHalf()
 
 
 function pad2(number) {                                                
-     return (number < 10 ? '0' : '') + number;                         
+  return (number < 10 ? '0' : '') + number;                         
 }
 
 function format(millis) {                                              
-    var seconds, minutes;                                              
-    minutes = Math.floor(millis / 60000);                              
-    millis %= 60000;                                                   
-    seconds = Math.floor(millis / 1000);                               
-    millis = Math.floor(millis % 1000);                                
-    millis = Math.floor(millis / 10);
-		
-		if (window.halftime == 1 && minutes >= window.mins / 2){
-			if (seconds >= window.secs / 2){
-				$("#time").stopwatch().stopwatch('stop');
-				toggleHalf();
-				window.halftime = 2;
-        $('#startSpan').html("Start 2nd half");
-        $('#startAll').show();			
-			}				
-		}else if (window.halftime == 2 && minutes >= window.mins){
-			if (seconds >= window.secs){
-        $("#time").stopwatch().stopwatch('stop');        
-        $.idleTimer('destroy');
+  var seconds, minutes;                                              
+  minutes = Math.floor(millis / 60000);                              
+  millis %= 60000;                                                   
+  seconds = Math.floor(millis / 1000);                               
+  millis = Math.floor(millis % 1000);                                
+  millis = Math.floor(millis / 10);
 
-        //spaghetti unbind code
-        $(".element1").unbind("mouseover", fill1);
-				$(".element1").unbind("mouseout", unfill1);
-				$(".element2").unbind("mouseover", fill2);
-				$(".element2").unbind("mouseout", unfill2);
-				$(".element3").unbind("mouseover", fill3);
-				$(".element3").unbind("mouseout", unfill3);
-        $(".leftBckg").unbind("mouseover", fill1);
-				$(".leftBckg").unbind("mouseout", unfill1);
-				$(".rightBckg").unbind("mouseover", fill2);
-				$(".rightBckg").unbind("mouseout", unfill2);
-				$(".startBckg").unbind("mouseover", fill3);
-				$(".startBckg").unbind("mouseout", unfill3);
-        
+  if (window.halftime == 1 && minutes >= window.mins / 2){
+	  if (seconds >= window.secs / 2){
+		  $("#time").stopwatch().stopwatch('stop');
+		  toggleHalf();
+		  window.halftime = 2;
+      $('#startSpan').html("Start 2nd half");
+      $('#startAll').show();			
+	  }				
+  }else if (window.halftime == 2 && minutes >= window.mins){
+	  if (seconds >= window.secs){
+      $("#time").stopwatch().stopwatch('stop');        
+      $.idleTimer('destroy');
 
-        $(".startBckg, .leftBckg, .rightBckg").fadeIn("fast");
-        $(".startBckg, .leftBckg, .rightBckg").css('opacity', '0.7');
-        $(".startBckg, .leftBckg, .rightBckg").css('background', '#0042AB');
-        showD();
-      }
-		}
-		return [pad2(minutes), pad2(seconds)].join(':') + ',' + pad2(millis);
+      //spaghetti unbind code
+      $(".element1").unbind("mouseover", fill1);
+		  $(".element1").unbind("mouseout", unfill1);
+		  $(".element2").unbind("mouseover", fill2);
+		  $(".element2").unbind("mouseout", unfill2);
+		  $(".element3").unbind("mouseover", fill3);
+		  $(".element3").unbind("mouseout", unfill3);
+      $(".leftBckg").unbind("mouseover", fill1);
+		  $(".leftBckg").unbind("mouseout", unfill1);
+		  $(".rightBckg").unbind("mouseover", fill2);
+		  $(".rightBckg").unbind("mouseout", unfill2);
+		  $(".startBckg").unbind("mouseover", fill3);
+		  $(".startBckg").unbind("mouseout", unfill3);
+      
+
+      $(".startBckg, .leftBckg, .rightBckg").fadeIn("fast");
+      $(".startBckg, .leftBckg, .rightBckg").css('opacity', '0.7');
+      $(".startBckg, .leftBckg, .rightBckg").css('background', '#0042AB');
+      showD();
+    }
+  }
+  return [pad2(minutes), pad2(seconds)].join(':') + ',' + pad2(millis);
 		
 }   
 
