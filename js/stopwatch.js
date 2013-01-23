@@ -6,27 +6,26 @@ window.halftime = 1;
 function showD() {
   window.finished = true;
   $('#dialogMain').show();    
-	$("#dialog").dialog({ buttons: {
+  $("#dialog").dialog({ buttons: {
       "Send results": function() { 
-          var df = confirm("Are you sure to send results?");
-            if(df){
-              $.post(window.update_url, 
+              var df = confirm("Are you sure to send results?");
+              if(df){
+                $.post(window.update_url, 
                   {action: 'finish', 
-                      team1goals: $('#team1').text(),
-                      team2goals: $('#team2').text(),
+                    team1goals: $('#team1').text(),
+                    team2goals: $('#team2').text(),
                   },
                   function(data) {
-                      $(this).dialog("close"); 
-                      $('#dialogMain').hide();
-                      window.location = window.back_url; 
-                  }
-              );
-            }else{
-              return;
-            }
-        }	
-      }
-	});
+                    $(this).dialog("close"); 
+                    $('#dialogMain').hide();
+                    window.location = window.back_url; 
+                  });
+                }else{
+                  return;
+                }
+      }	
+    }
+  });
 
   $('#dname').html($('#name1').text());
   $('#d2name').html($('#name2').text());
@@ -47,15 +46,15 @@ function toggleHalf()
   /*$('.leftBckg').css("float", "right");
   $('.rightBckg').css("float", "left");*/
   toggle();
-
 }
 
-
-function pad2(number) {                                                
+function pad2(number) 
+{                                                
   return (number < 10 ? '0' : '') + number;                         
 }
 
-function format(millis) {                                              
+function format(millis) 
+{                                              
   var seconds, minutes;                                              
   minutes = Math.floor(millis / 60000);                              
   millis %= 60000;                                                   
@@ -90,7 +89,6 @@ function format(millis) {
       $(".startBckg").unbind("mouseover", fill3);
       $(".startBckg").unbind("mouseout", unfill3);
 
-
       $(".startBckg, .leftBckg, .rightBckg").fadeIn("fast");
       $(".startBckg, .leftBckg, .rightBckg").css('opacity', '0.7');
       $(".startBckg, .leftBckg, .rightBckg").css('background', '#0042AB');
@@ -98,7 +96,6 @@ function format(millis) {
     }
   }
   return [pad2(minutes), pad2(seconds)].join(':') + ',' + pad2(millis);
-		
 }   
 
 function toggle ()
@@ -106,20 +103,19 @@ function toggle ()
   if ($("#startAll").is(':visible')){
     $('#startAll').hide();
   }  
-  
+
   btnStart = document.getElementById("btnStart");  
   if (btnStart.innerHTML == "Start" || btnStart.innerHTML == "Resume"){
     btnStart.innerHTML = "Pause";
     $("#time").stopwatch({formatter: format, updateInterval: 50}).stopwatch('start');
     return;
-  }
-  else if (btnStart.innerHTML == "Pause"){
+  }else if (btnStart.innerHTML == "Pause"){
     btnStart.innerHTML = "Resume";
     $("#time").stopwatch().stopwatch('stop');
     return;
   }
 }
-                                                                      
+
 function resetTime()
 {
   btnStart = document.getElementById("btnStart");	
@@ -135,11 +131,12 @@ function resetTime()
   }else {
     $('#startSpan').html("Start match");
   }
+
   halftimeNumber = document.getElementById("halftime"); 
   if (halftimeNumber.innerHTML == "2."){
     halftimeNumber.innerHTML = "1."
   } 
-    window.halftime = 1;
+  window.halftime = 1;
 
   return;
 }
@@ -153,8 +150,5 @@ function newTime()
   window.secs = inpSecs;
   $('.saved').fadeIn(200).delay(500).fadeOut(200);
 
-
   return false;
 }
-
-
