@@ -27,9 +27,18 @@
         }
     </script>
     <script>
-      $(document).ready(function() {  
+      $(document).ready(function() {
 	        $('#dialogMain').hide();
 	        $('#tabs').tabs();    
+
+            if (window.location.hash !== ""){
+                var hash = parseInt(window.location.hash.match(/[0-9]+/)[0]);
+                var hash_min = Math.floor(hash / 60);
+                $('#fmins').val(hash_min);
+                $('#fsecs').val(Math.floor(hash % 60));
+                newTime();
+            }            
+
 	        $.idleTimer(2500);
 	        $(document).bind("contextmenu",function(e){
                 return false;
