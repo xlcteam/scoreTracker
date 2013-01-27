@@ -80,7 +80,7 @@ scoreTracker.prototype.teamBDown = function (){
 			$("#team2").html(this.scoreB);
 			if(document.forms['effects'][0].checked) {
 				window.scaling2 = 1;
-                soundPlay("whistle");
+                //soundPlay("whistle");
 				$("#team2").effect("scale", { percent: 150}, 500)
 				           .effect("scale", { percent: Math.ceil(100 / (150 / 100))}, 1000, function(){
 													window.scaling2 = 0
