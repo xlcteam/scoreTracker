@@ -222,7 +222,7 @@ scoreTracker.prototype.showD = function () {
                         team1goals: $('#team1').text(),
                         team2goals: $('#team2').text(),},
                     function(data) {
-                        $(this).dialog("close"); 
+                        $("#dialog").dialog("close"); 
                         $('#dialogMain').hide();
                         window.location = window.back_url; 
                     }
