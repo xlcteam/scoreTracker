@@ -106,7 +106,8 @@ scoreTracker.prototype.toggle = function (){
 
     if ($("#btnStart").html() == "Start" || $("#btnStart").html() == "Resume"){
         $("#btnStart").html('Pause')
-	    $("#time").stopwatch({formatter: format, updateInterval: 50}).stopwatch('start');
+	    $("#time").stopwatch({formatter: this.format, updateInterval: 50})
+                    .stopwatch('start');
         return;
     } else if ($("#btnStart").html() == "Pause"){
         $("#btnStart").html("Resume");
