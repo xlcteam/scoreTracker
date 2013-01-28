@@ -20,7 +20,7 @@ scoreTracker.prototype = {
     },
 
     teamAGoal: function (){
-        console.log(this.scoreA);
+        console.log(this.secs);
         if (window.scaling1) return false;
         else {
 	        this.scoreA++;
@@ -124,8 +124,8 @@ scoreTracker.prototype = {
     },
 
     toggleHalf: function (){
-        $('#startAll').html('2.');
-	    toggle();
+        $('#halftime').html('2.');
+	    this.toggle();
     },
 
     resetTime: function (){
