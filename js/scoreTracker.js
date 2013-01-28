@@ -143,7 +143,7 @@ scoreTracker.prototype = {
         }
 
 	    if ($("#halftime").html() == "2."){
-		    $("#btnStart").html("1.");
+		    $("#halftime").html("1.");
 	    } 
         this.halftime = 1;
 	
