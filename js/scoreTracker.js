@@ -3,15 +3,16 @@ window.scaling2 = 0;
 
 function scoreTracker()
 {
-    this.teamA = 'Robot';
-    this.teamB = 'Human';
-    this.scoreA = 0;
-    this.scoreB = 0;
+    $this = this;
+    $this.teamA = 'Robot';
+    $this.teamB = 'Human';
+    $this.scoreA = 0;
+    $this.scoreB = 0;
 
-    this.mins = 20;
-    this.secs = 0;
-    this.halftime = 1;
-    this.finished = false;
+    $this.mins = 20;
+    $this.secs = 0;
+    $this.halftime = 1;
+    $this.finished = false;
 }
 
 scoreTracker.prototype = { 
@@ -20,11 +21,10 @@ scoreTracker.prototype = {
     },
 
     teamAGoal: function (){
-        console.log(this.secs);
         if (window.scaling1) return false;
         else {
-	        this.scoreA++;
-	        $("#team1").html(this.scoreA);
+	        $this.scoreA++;
+	        $("#team1").html($this.scoreA);
 	        if(document.forms['effects'][0].checked) {
 	            window.scaling1 = 1;
 		        $("#team1").effect("scale", { percent: 150}, 500)
@@ -38,8 +38,8 @@ scoreTracker.prototype = {
     teamBGoal: function (){
 	    if (window.scaling2) return false;
 	    else {
-		    this.scoreB++;
-		    $("#team2").html(this.scoreB);
+		    $this.scoreB++;
+		    $("#team2").html($this.scoreB);
 		    if(document.forms['effects'][0].checked) {
 			    window.scaling2 = 1;
 			    $("#team2").effect("scale", { percent: 150}, 500)
@@ -51,14 +51,14 @@ scoreTracker.prototype = {
     },
 
     teamADown: function (){
-        if (this.scoreA <= 0){
-		    this.scoreA = 0;
+        if ($this.scoreA <= 0){
+		    $this.scoreA = 0;
 		    return false;	
 	    }else {
 		    if (window.scaling1) return false;
 		    else {		
-			    this.scoreA--;
-			    $("#team1").html(this.scoreA);
+			    $this.scoreA--;
+			    $("#team1").html($this.scoreA);
 			    if(document.forms['effects'][0].checked) {
 				    window.scaling1 = 1;	
                     //soundPlay("whistle");
@@ -72,14 +72,14 @@ scoreTracker.prototype = {
     },
 
     teamBDown: function (){
-	    if (this.scoreB <= 0){
-		    this.scoreB = 0;
+	    if ($this.scoreB <= 0){
+		    $this.scoreB = 0;
 		    return false;	
 	    }else{
 		    if (window.scaling2) return false;
 		    else {
-			    this.scoreB--;
-			    $("#team2").html(this.scoreB);
+			    $this.scoreB--;
+			    $("#team2").html($this.scoreB);
 			    if(document.forms['effects'][0].checked) {
 				    window.scaling2 = 1;
                     //soundPlay("whistle");
@@ -93,10 +93,10 @@ scoreTracker.prototype = {
     },
 
     resetScore: function (){
-        this.scoreA = 0;
-        this.scoreB = 0;
-        $('#team1').html(this.scoreA);
-        $('#team2').html(this.scoreB);
+        $this.scoreA = 0;
+        $this.scoreB = 0;
+        $('#team1').html($this.scoreA);
+        $('#team2').html($this.scoreB);
     },
 
 
@@ -108,7 +108,7 @@ scoreTracker.prototype = {
 
         if ($("#btnStart").html() == "Start" || $("#btnStart").html() == "Resume"){
             $("#btnStart").html('Pause')
-	        $("#time").stopwatch({formatter: this.format, updateInterval: 50})
+	        $("#time").stopwatch({formatter: $this.format, updateInterval: 50})
                         .stopwatch('start');
             return;
         } else if ($("#btnStart").html() == "Pause"){
@@ -120,12 +120,12 @@ scoreTracker.prototype = {
 
     startMatch: function (){
         $('#startAll').hide();
-        this.toggle();
+        $this.toggle();
     },
 
     toggleHalf: function (){
         $('#halftime').html('2.');
-	    this.toggle();
+	    $this.toggle();
     },
 
     resetTime: function (){
@@ -145,7 +145,7 @@ scoreTracker.prototype = {
 	    if ($("#halftime").html() == "2."){
 		    $("#halftime").html("1.");
 	    } 
-        this.halftime = 1;
+        $this.halftime = 1;
 	
         return;
     },
@@ -154,11 +154,11 @@ scoreTracker.prototype = {
 	    var inpMins = $('#fmins').val();
 	    var inpSecs = $('#fsecs').val();
 	
-	    this.mins = inpMins;
-	    this.secs = inpSecs;
+        $this.mins = inpMins;
+        $this.secs = inpSecs;
         $('.saved').fadeIn(200).delay(500).fadeOut(200);
-
-	    return false;
+        
+        return false;
     },
 
 
@@ -174,19 +174,19 @@ scoreTracker.prototype = {
         millis = Math.floor(millis % 1000);                                
         millis = Math.floor(millis / 10);
 		
-        if (this.halftime == 1 && minutes >= this.mins / 2){
-            if (seconds >= this.secs / 2){
+        if ($this.halftime == 1 && minutes >= $this.mins / 2){
+            if (seconds >= $this.secs / 2){
 			    $("#time").stopwatch().stopwatch('stop');
-                this.toggleHalf();
-                this.halftime = 2;
+                $this.toggleHalf();
+                $this.halftime = 2;
                 $('#startText').html("Start 2nd half");
                 $('#startAll').show();			
             }				
-        }else if (this.halftime == 2 && minutes >= this.mins){
-            if (seconds >= this.secs){
+        }else if ($this.halftime == 2 && minutes >= $this.mins){
+            if (seconds >= $this.secs){
                 $("#time").stopwatch().stopwatch('stop');        
                 $.idleTimer('destroy');
-                this.finished = true;
+                $this.finished = true;
 
                 //spaghetti unbind code
                 $(".element1").unbind("mouseover", fill1);
@@ -206,7 +206,7 @@ scoreTracker.prototype = {
                 $(".startBckg, .leftBckg, .rightBckg").fadeIn("fast");
                 $(".startBckg, .leftBckg, .rightBckg").css('opacity', '0.7');
                 $(".startBckg, .leftBckg, .rightBckg").css('background', '#0042AB');
-                this.showD();
+                $this.showD();
             }
         }
         return [pad2(minutes), pad2(seconds)].join(':') + ',' + pad2(millis);
