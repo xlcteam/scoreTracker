@@ -20,6 +20,7 @@ scoreTracker.prototype = {
     },
 
     teamAGoal: function (){
+        console.log(this.scoreA);
         if (window.scaling1) return false;
         else {
 	        this.scoreA++;
@@ -141,7 +142,6 @@ scoreTracker.prototype = {
             $('#startText').html("Start match");
         }
 
-	    halftimeNumber = document.getElementById("halftime"); 
 	    if ($("#halftime").html() == "2."){
 		    $("#btnStart").html("1.");
 	    } 
