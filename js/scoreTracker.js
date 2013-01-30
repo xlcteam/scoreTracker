@@ -13,6 +13,10 @@ function scoreTracker()
     $this.soundEmbed = null;
     $this.scaling1 = 0;
     $this.scaling2 = 0;
+
+    $this.sound = new Howl({
+        urls: ['sound/whistle.mp3']
+    });
 }
 
 scoreTracker.prototype = { 
@@ -61,7 +65,6 @@ scoreTracker.prototype = {
 			    $("#team1").html($this.scoreA);
 			    if(document.forms['effects'][0].checked) {
 				    $this.scaling1 = 1;	
-                    //soundPlay("whistle");
 				    $("#team1").effect("scale", { percent: 150}, 500)
 		                 	   .effect("scale", { percent: Math.ceil(100 / (150 / 100))}, 1000, function(){
                         	                            $this.scaling1 = 0;
@@ -82,7 +85,6 @@ scoreTracker.prototype = {
 			    $("#team2").html($this.scoreB);
 			    if(document.forms['effects'][0].checked) {
 				    $this.scaling2 = 1;
-                    //soundPlay("whistle");
 				    $("#team2").effect("scale", { percent: 150}, 500)
 				               .effect("scale", { percent: Math.ceil(100 / (150 / 100))}, 1000, function(){
 													    $this.scaling2 = 0
@@ -180,7 +182,8 @@ scoreTracker.prototype = {
                 $this.toggleHalf();
                 $this.halftime = 2;
                 $('#startText').html("Start 2nd half");
-                $('#startAll').show();			
+                $('#startAll').show();
+                $this.sound.play();			
             }				
         }else if ($this.halftime == 2 && minutes >= $this.mins){
             if (seconds >= $this.secs){
@@ -206,6 +209,7 @@ scoreTracker.prototype = {
                 $(".startBckg, .leftBckg, .rightBckg").fadeIn("fast");
                 $(".startBckg, .leftBckg, .rightBckg").css('opacity', '0.7');
                 $(".startBckg, .leftBckg, .rightBckg").css('background', '#0042AB');
+                $this.sound.play();	
                 $this.showD();
             }
         }
@@ -238,24 +242,5 @@ scoreTracker.prototype = {
 	    $('#d2name').html($('#name2').text());
 	    $('#dgoals').val($('#team1').text());
 	    $('#d2goals').val($('#team2').text());
-    },
-
-    soundPlay: function (which) {
-        if (!soundEmbed){
-            soundEmbed = document.createElement("embed");
-            soundEmbed.setAttribute("src", "/mp3/"+which+".wav");
-            soundEmbed.setAttribute("hidden", true);
-            soundEmbed.setAttribute("autostart", true);
-        }else{
-            document.body.removeChild(soundEmbed);
-            soundEmbed.removed = true;
-            soundEmbed = null;
-            soundEmbed = document.createElement("embed");
-            soundEmbed.setAttribute("src", "/mp3/"+which+".wav");
-            soundEmbed.setAttribute("hidden", true);
-            soundEmbed.setAttribute("autostart", true);
-            }
-        soundEmbed.removed = false;
-        document.body.appendChild(soundEmbed);
-    } 
+    }
 }
