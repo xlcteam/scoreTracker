@@ -13,13 +13,19 @@ function scoreTracker()
     $this.soundEmbed = null;
     $this.scaling1 = 0;
     $this.scaling2 = 0;
-
-    $this.sound = new Howl({
-        urls: ['js/sound/whistle.mp3', 'js/sound/whistle.ogg']
-    });
 }
 
 scoreTracker.prototype = { 
+    
+    playWhistle: function() {
+        $this.sound = new Howl({
+            urls: ['js/sound/whistle.mp3', 'js/sound/whistle.ogg'],
+            onload: function() {
+                $this.sound.play();
+            }
+        }).play();
+    },
+
     syncMatch: function (){
         //TODO
     },
