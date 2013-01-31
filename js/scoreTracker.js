@@ -18,12 +18,7 @@ function scoreTracker()
 scoreTracker.prototype = { 
     
     playWhistle: function() {
-        $this.sound = new Howl({
-            urls: ['js/sound/whistle.mp3', 'js/sound/whistle.ogg'],
-            onload: function() {
-                $this.sound.play();
-            }
-        }).play();
+        $("#whistle").play();
     },
 
     syncMatch: function (){
@@ -189,7 +184,7 @@ scoreTracker.prototype = {
                 $this.halftime = 2;
                 $('#startText').html("Start 2nd half");
                 $('#startAll').show();
-                $this.sound.play();			
+                $this.playWhistle();			
             }				
         }else if ($this.halftime == 2 && minutes >= $this.mins){
             if (seconds >= $this.secs){
@@ -215,7 +210,7 @@ scoreTracker.prototype = {
                 $(".startBckg, .leftBckg, .rightBckg").fadeIn("fast");
                 $(".startBckg, .leftBckg, .rightBckg").css('opacity', '0.7');
                 $(".startBckg, .leftBckg, .rightBckg").css('background', '#0042AB');
-                $this.sound.play();	
+                $this.playWhistle();	
                 $this.showD();
             }
         }
