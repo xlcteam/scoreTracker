@@ -15,7 +15,7 @@ function scoreTracker()
     $this.scaling2 = 0;
 
     $this.sound = new Howl({
-        urls: ['sound/whistle.mp3']
+        urls: ['js/sound/whistle.mp3']
     });
 }
 
