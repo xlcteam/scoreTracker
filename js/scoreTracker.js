@@ -18,7 +18,6 @@ function scoreTracker()
 scoreTracker.prototype = { 
     
     playWhistle: function() {
-        console.log('whistling');
         document.getElementById('whistle').play();
     },
 
