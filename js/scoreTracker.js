@@ -18,7 +18,8 @@ function scoreTracker()
 scoreTracker.prototype = { 
     
     playWhistle: function() {
-        $("#whistle").play();
+        console.log('whistling');
+        document.getElementById('whistle').play();
     },
 
     syncMatch: function (){
@@ -29,6 +30,7 @@ scoreTracker.prototype = {
         if ($this.scaling1) return false;
         else {
 	        $this.scoreA++;
+            $this.playWhistle();			
 	        $("#team1").html($this.scoreA);
 	        if(document.forms['effects'][0].checked) {
 	            $this.scaling1 = 1;
@@ -44,6 +46,7 @@ scoreTracker.prototype = {
 	    if ($this.scaling2) return false;
 	    else {
 		    $this.scoreB++;
+            $this.playWhistle();			
 		    $("#team2").html($this.scoreB);
 		    if(document.forms['effects'][0].checked) {
 			    $this.scaling2 = 1;
