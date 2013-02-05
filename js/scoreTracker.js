@@ -1,4 +1,4 @@
-function scoreTracker()
+function scoreTracker(options)
 {
     $this = this;
     $this.teamA = 'Robot';
@@ -13,39 +13,58 @@ function scoreTracker()
     $this.soundEmbed = null;
     $this.scaling1 = 0;
     $this.scaling2 = 0;
+    $this.back_url = options['back_url'];
+    $this.update_url = options['update_url'];
 }
 
 scoreTracker.prototype = { 
-    
+
     playWhistle: function() {
         document.getElementById('whistle').play();
     },
 
-    syncMatch: function (){
-        //TODO
+    syncMatch: function (options){
+        if (options) {
+            if (options.final) { 
+                $.post($this.update_url, {
+                    'scoreA': $this.scoreA,
+                    'scoreB': $this.scoreB,
+                    'final': true
+                });
+            }        
+        } else {
+             $.post($this.update_url, {
+                'scoreA': $this.scoreA,
+                'scoreB': $this.scoreB
+            });
+        
+        }
+
     },
 
     teamAGoal: function (){
         if ($this.scaling1) return false;
         else {
 	        $this.scoreA++;
-            $this.playWhistle();			
+            $this.playWhistle();
 	        $("#team1").html($this.scoreA);
 	        if(document.forms['effects'][0].checked) {
 	            $this.scaling1 = 1;
 		        $("#team1").effect("scale", { percent: 150}, 500)
 			               .effect("scale", { percent: (100 / (150 / 100))}, 1000, function(){
-	                              $this.scaling1 = 0;
+	                                                $this.scaling1 = 0;
 	                        });
 	        }
         }
+
+        this.syncMatch();
     },
 
     teamBGoal: function (){
 	    if ($this.scaling2) return false;
 	    else {
 		    $this.scoreB++;
-            $this.playWhistle();			
+            $this.playWhistle();
 		    $("#team2").html($this.scoreB);
 		    if(document.forms['effects'][0].checked) {
 			    $this.scaling2 = 1;
@@ -55,6 +74,8 @@ scoreTracker.prototype = {
 			                });
 		    }
 	    }
+
+        this.syncMatch();
     },
 
     teamADown: function (){
@@ -68,6 +89,7 @@ scoreTracker.prototype = {
 			    $("#team1").html($this.scoreA);
 			    if(document.forms['effects'][0].checked) {
 				    $this.scaling1 = 1;	
+                    //soundPlay("whistle");
 				    $("#team1").effect("scale", { percent: 150}, 500)
 		                 	   .effect("scale", { percent: Math.ceil(100 / (150 / 100))}, 1000, function(){
                         	                            $this.scaling1 = 0;
@@ -75,6 +97,8 @@ scoreTracker.prototype = {
 			    }
 		    }
 	    }
+
+        this.syncMatch();
     },
 
     teamBDown: function (){
@@ -88,6 +112,7 @@ scoreTracker.prototype = {
 			    $("#team2").html($this.scoreB);
 			    if(document.forms['effects'][0].checked) {
 				    $this.scaling2 = 1;
+                    //soundPlay("whistle");
 				    $("#team2").effect("scale", { percent: 150}, 500)
 				               .effect("scale", { percent: Math.ceil(100 / (150 / 100))}, 1000, function(){
 													    $this.scaling2 = 0
@@ -95,6 +120,8 @@ scoreTracker.prototype = {
 			    }
 		    }
 	    }
+
+        this.syncMatch();
     },
 
     resetScore: function (){
@@ -124,6 +151,7 @@ scoreTracker.prototype = {
     },
 
     startMatch: function (){
+        $this.syncMatch();
         $('#startAll').hide();
         $this.toggle();
     },
@@ -186,7 +214,7 @@ scoreTracker.prototype = {
                 $this.halftime = 2;
                 $('#startText').html("Start 2nd half");
                 $('#startAll').show();
-                $this.playWhistle();			
+                $this.playWhistle();	
             }				
         }else if ($this.halftime == 2 && minutes >= $this.mins){
             if (seconds >= $this.secs){
@@ -211,8 +239,8 @@ scoreTracker.prototype = {
 
                 $(".startBckg, .leftBckg, .rightBckg").fadeIn("fast");
                 $(".startBckg, .leftBckg, .rightBckg").css('opacity', '0.7');
-                $(".startBckg, .leftBckg, .rightBckg").css('background', '#0042AB');
-                $this.playWhistle();	
+                $(".startBckg, .leftBckg, .rightBckg").css('background', '#000000');
+                $this.playWhistle();
                 $this.showD();
             }
         }
@@ -225,14 +253,14 @@ scoreTracker.prototype = {
             "Send results": function() { 
                 var df = confirm("Are you sure to send results?");
                 if(df){
-                    $.post(window.update_url, 
+                    $.post($this.update_url, 
                             {action: 'finish', 
                             team1goals: $('#team1').text(),
                             team2goals: $('#team2').text(),},
                         function(data) {
                             $("#dialog").dialog("close"); 
                             $('#dialogMain').hide();
-                            window.location = window.back_url; 
+                            window.location = $this.back_url; 
                         }
                     );
                 }else{
