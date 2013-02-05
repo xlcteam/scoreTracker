@@ -13,8 +13,8 @@ function scoreTracker(options)
     $this.soundEmbed = null;
     $this.scaling1 = 0;
     $this.scaling2 = 0;
-    $this.back_url = options['back_url'];
-    $this.update_url = options['update_url'];
+    $this.back_url = "#";//options['back_url'];
+    $this.update_url = "#";//options['update_url'];
 }
 
 scoreTracker.prototype = { 
