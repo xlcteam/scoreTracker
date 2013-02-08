@@ -10,11 +10,10 @@ function scoreTracker(options)
     $this.secs = 0;
     $this.halftime = 1;
     $this.finished = false;
-    $this.soundEmbed = null;
     $this.scaling1 = 0;
     $this.scaling2 = 0;
-    $this.back_url = "#";//options['back_url'];
-    $this.update_url = "#";//options['update_url'];
+    $this.back_url = options['back_url'];
+    $this.update_url = options['update_url'];
 }
 
 scoreTracker.prototype = { 
@@ -43,6 +42,10 @@ scoreTracker.prototype = {
     },
 
     teamAGoal: function (){
+        if ($this.finished)
+            return;
+
+
         if ($this.scaling1) return false;
         else {
 	        $this.scoreA++;
@@ -61,6 +64,10 @@ scoreTracker.prototype = {
     },
 
     teamBGoal: function (){
+        if ($this.finished)
+            return;
+
+
 	    if ($this.scaling2) return false;
 	    else {
 		    $this.scoreB++;
@@ -79,6 +86,10 @@ scoreTracker.prototype = {
     },
 
     teamADown: function (){
+        if ($this.finished)
+            return;
+
+
         if ($this.scoreA <= 0){
 		    $this.scoreA = 0;
 		    return false;	
@@ -102,6 +113,9 @@ scoreTracker.prototype = {
     },
 
     teamBDown: function (){
+        if ($this.finished)
+            return;
+
 	    if ($this.scoreB <= 0){
 		    $this.scoreB = 0;
 		    return false;	
@@ -151,7 +165,7 @@ scoreTracker.prototype = {
     },
 
     startMatch: function (){
-        $this.syncMatch();
+        $this.syncMatch(); // marks the match as started
         $('#startAll').hide();
         $this.toggle();
     },
@@ -240,6 +254,7 @@ scoreTracker.prototype = {
                 $(".startBckg, .leftBckg, .rightBckg").fadeIn("fast");
                 $(".startBckg, .leftBckg, .rightBckg").css('opacity', '0.7');
                 $(".startBckg, .leftBckg, .rightBckg").css('background', '#000000');
+                $(".startText, .goalRText, .goalLText").hide();
                 $this.playWhistle();
                 $this.showD();
             }
@@ -249,26 +264,24 @@ scoreTracker.prototype = {
 
     showD: function () {
 	    $('#dialogMain').show();    
-	    $("#dialog").dialog({ buttons: {
-            "Send results": function() { 
-                var df = confirm("Are you sure to send results?");
-                if(df){
-                    $.post($this.update_url, 
-                            {action: 'finish', 
-                            team1goals: $('#team1').text(),
-                            team2goals: $('#team2').text(),},
-                        function(data) {
-                            $("#dialog").dialog("close"); 
-                            $('#dialogMain').hide();
-                            window.location = $this.back_url; 
-                        }
-                    );
-                }else{
+	    $("#dialog").dialog({ 
+            buttons: {
+            "Send results": function() {
+                var df = confirm("Are you sure you want to save these results?\n\n" +
+                    $this.teamA + ' ' +
+                    $this.scoreA + " : " + $this.scoreB + ' ' +
+                    $this.teamB);
+
+                if (df)
+                    $('#dialogForm').submit();  
+                else 
                     return;
-                }
-            }	
-          }
-	    });
+
+                }	
+            },
+            width: 500,
+            height: 250
+        });
 	    $('#dname').html($('#name1').text());
 	    $('#d2name').html($('#name2').text());
 	    $('#dgoals').val($('#team1').text());

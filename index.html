@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title> scoreTracker - XLC Team </title>
+    <title> scoreTracker </title>
     <meta http-equiv="Content-Language" content="en-EN">
 
     <script src="js/lib/jquery.js"></script>
@@ -12,21 +12,22 @@
     <script src="js/scoreTracker.js"></script>
     <script src="js/fills.js"></script>
     <link rel="stylesheet" href="css/style.css"/>
-    <link href="css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="css/jquery-ui.css" type="text/css"/>
 
     <script>
-        /*window.update_url = {link update! $id};
-        window.back_url = {link finish $id};
-        window.finished = false;
-        window.onbeforeunload = function(){
-        if (window.finished)
-            return;
-        else
-            return 'Are you sure you want to quit?';
-        }*/
+            window.onbeforeunload = function(){
+                    if (window.finished)
+                        return;
+                    else
+                        return 'Are you sure you want to quit?';
+            }
     </script>
+
     <script>
-        var ST = new scoreTracker();
+        var ST = new scoreTracker({
+          'update_url':  "{% url match_play match_id %}",
+          'back_url': "{% url index %}"
+        });
 
         $(document).ready(function() {
             $('#dialogMain').hide();
@@ -174,15 +175,26 @@
 		<div id="dialogMain">
 			<div id="dialog" title="Results" style="font-size:50.5%;">
 				<div style="margin: 0 auto;height: 70px; font-size:130.5%;">
-                    <table style="width: 260px; margin: 0 auto;">
+          <form action="" method="POST" id="dialogForm">
+                    <table style="width: 270px; margin: 0 auto;">
                       <tr>
-                        <td style="width: 100px; text-align: right;"> <span id="dname" style="	color: #000000;"></span> </td>
-                        <td> <input style="width: 30px;" type="text" id="dgoals"/> </td>
+                        <td style="width: 100px; text-align: right;"> <span id="dname"></span> </td>
+                        <td> <input style="width: 30px;" type="text"
+                          name="scoreA" id="dgoals"/> </td>
                         <td> <b>:</b> </td>
-                        <td>  <input style="width: 30px;" type="text" id="d2goals"/> </td>
-                        <td style="width: 100px; text-align: left;">  <span id="d2name" style="color: #000000;"></span> </td>
+                        <td>  <input style="width: 30px;" type="text"
+                          name="scoreB" id="d2goals"/> </td>
+                        <td style="width: 100px; text-align: left;"><span id="d2name"></span> </td>
                       </tr>
-                    </table>
+                   </table>
+                   <table style="padding-top: 40px;">
+                      <tr>
+                        <td>Your password: </td>
+                        <td><input type="password" name="pass" /> </td>
+                      </tr>
+                   </table>
+                    <input type="hidden" name="final" value="true" />
+          </form>
 				</div>
 			</div>
 		</div>
