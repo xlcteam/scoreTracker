@@ -146,6 +146,14 @@ body {
     text-align: center;
 }
 
+#scores_each table tr td {
+    padding-top: 10px;
+}
+
+#scores_try table tr td {
+    padding-top: 10px;
+}
+
 #timeBar {
 	width: 300px;
 	margin: 0 auto;
