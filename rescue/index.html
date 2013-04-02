@@ -117,9 +117,30 @@
     <div class="name"><span class="element1" id="name1">Robot</span></div>
   </div>
 
-  <div id="scores" style="width: 100%;">
-    <span> Room 1: <a class="button red">-</a> 0 <a class="button green">+</a></span>
+  <div id="scores_tries" class="scores" style="width: 50%;float: right;">
+    <span> Gap: <a class="button red" onclick="ST.rmEach('#EachGap', 'gap');">-</a> <span id="EachGap">0. times</span> <a class="button green" onclick="ST.addEach('#EachGap', 'gap');">+</a></span>
+    <br/>
+    <span> Obstacle: <a class="button red" onclick="ST.rmEach('#EachObstacle', 'obstacle');">-</a> <span id="EachObstacle">0. times</span> <a class="button green" onclick="ST.addEach('#EachObstacle', 'obstacle');">+</a></span>
+    <br/>
+    <span> Speed Bump: <a class="button red" onclick="ST.rmEach('#EachSpeedBump', 'speed_bump');">-</a> <span id="EachSpeedBump">0. times</span> <a class="button green" onclick="ST.addEach('#EachSpeedBump', 'speed_bump');">+</a></span>
+    <br/>
+    <span> Intersection: <a class="button red" onclick="ST.rmEach('#EachIntersection', 'intersection');">-</a> <span id="EachIntersection">0. times</span> <a class="button green" onclick="ST.addEach('#EachIntersection', 'intersection');">+</a></span>
+    </div>
+
+  <div id="scores_each" class="scores" style="width: 50%;">
+    <span> Room 1: <a class="button red" onclick="ST.rmTry('#TryRoom1', 'room1');">-</a> <span id="TryRoom1">0. try</span> <a class="button green" onclick="ST.addTry('#TryRoom1', 'room1');">+</a></span>
+    <br/>
+    <span> Room 2: <a class="button red" onclick="ST.rmTry('#TryRoom2', 'room2');">-</a> <span id="TryRoom2">0. try</span> <a class="button green" onclick="ST.addTry('#TryRoom2', 'room2');">+</a></span>
+    <br/>    
+    <span> Room 3: <a class="button red" onclick="ST.rmTry('#TryRoom3', 'room3');">-</a> <span id="TryRoom3">0. try</span> <a class="button green" onclick="ST.addTry('#TryRoom3', 'room3');">+</a></span>
+    <br/>    
+    <span> Ramp : <a class="button red" onclick="ST.rmTry('#TryRamp', 'ramp');">-</a> <span id="TryRamp">0. try</span> <a class="button green" onclick="ST.addTry('#TryRamp', 'ramp');">+</a></span>    
+    <br/>    
+    <span> Hallway: <a class="button red" onclick="ST.rmTry('#TryHallway', 'hallway');">-</a> <span id="TryHallway">0. try</span> <a class="button green" onclick="ST.addTry('#TryHallway', 'hallway');">+</a></span>      
+    <br/>    
+    <span> Victim: <a class="button red" onclick="ST.rmTry('#TryVictim', 'victim');">-</a> <span id="TryVictim">0. try</span> <a class="button green" onclick="ST.addTry('#TryVictim', 'victim');">+</a></span>        
   </div>
+  <div style="clear:both;"></div>
 
   <div id="timeBar" class="element3">
 		<div id="time" class="time"><span >00:00,00</span></div>

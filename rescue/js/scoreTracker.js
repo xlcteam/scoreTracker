@@ -7,12 +7,61 @@ function scoreTracker(options)
     $this.finished = false;
     $this.back_url = options['back_url'];
     $this.update_url = options['update_url'];
+
+    $this.scores = {
+        'room1' : 0,
+        'room2' : 0,
+        'room3' : 0,
+        'ramp'  : 0,
+        'hallway':0,
+        'victim': 0,
+
+        'gap' : 0,
+        'obstacle': 0,
+        'speed_bump': 0,
+        'intersection': 0,
+    }
+
 }
 
 scoreTracker.prototype = { 
     syncPerf: function (){
     },
 
+    addTry: function (Try, string){
+        if ($this.scores[string] < 3){
+            $this.scores[string]++;
+            $(Try).html($this.scores[string] + ". try");
+        } else {
+            $this.scores[string] = 4;
+            $(Try).html("-------");
+        }
+    },
+
+    rmTry: function (Try, string){
+        if ($this.scores[string] > 0){
+            $this.scores[string]--;
+            $(Try).html($this.scores[string] + ". try");  
+        } 
+    },
+
+    addEach: function (Each, string){
+        $this.scores[string]++;
+        if ($this.scores[string] == 1)
+            $(Each).html($this.scores[string] + ". time");
+        else
+            $(Each).html($this.scores[string] + ". times");              
+    }, 
+
+    rmEach: function (Each, string){
+        if ($this.scores[string] > 0)
+            $this.scores[string]--;
+
+        if ($this.scores[string] == 1)
+            $(Each).html($this.scores[string] + ". time");
+        else
+            $(Each).html($this.scores[string] + ". times");  
+    },
 
     resetScore: function (){
         $this.score = 0;
