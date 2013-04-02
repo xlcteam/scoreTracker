@@ -48,9 +48,11 @@ scoreTracker.prototype = {
     addEach: function (Each, string){
         $this.scores[string]++;
         if ($this.scores[string] == 1)
-            $(Each).html($this.scores[string] + ". time");
+            $(Each).html("Once");
+        else if ($this.scores[string] == 2)
+            $(Each).html("Twice");
         else
-            $(Each).html($this.scores[string] + ". times");              
+            $(Each).html($this.scores[string] + " times");              
     }, 
 
     rmEach: function (Each, string){
@@ -58,9 +60,11 @@ scoreTracker.prototype = {
             $this.scores[string]--;
 
         if ($this.scores[string] == 1)
-            $(Each).html($this.scores[string] + ". time");
+            $(Each).html("Once");
+        else if ($this.scores[string] == 2)
+            $(Each).html("Twice");
         else
-            $(Each).html($this.scores[string] + ". times");  
+            $(Each).html($this.scores[string] + " times");  
     },
 
     resetScore: function (){

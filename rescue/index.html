@@ -43,8 +43,13 @@
           });
 
           $.idleTimer(2500);
+          $(document).bind("idle.idleTimer", function() {
+            $("#main").fadeOut("slow");
+            $("#underMain").fadeOut("slow");
+          });
           $(document).bind("active.idleTimer", function() {
-              $("#underMain").fadeIn("slow");
+            $("#main").fadeIn("slow");
+            $("#underMain").fadeIn("slow");
           });
 
           $('.element3').click(ST.toggle);
@@ -118,13 +123,13 @@
   </div>
 
   <div id="scores_tries" class="scores" style="width: 50%;float: right;">
-    <span> Gap: <a class="button red" onclick="ST.rmEach('#EachGap', 'gap');">-</a> <span id="EachGap">0. times</span> <a class="button green" onclick="ST.addEach('#EachGap', 'gap');">+</a></span>
+    <span> Gap: <a class="button red" onclick="ST.rmEach('#EachGap', 'gap');">-</a> <span id="EachGap">0 times</span> <a class="button green" onclick="ST.addEach('#EachGap', 'gap');">+</a></span>
     <br/>
-    <span> Obstacle: <a class="button red" onclick="ST.rmEach('#EachObstacle', 'obstacle');">-</a> <span id="EachObstacle">0. times</span> <a class="button green" onclick="ST.addEach('#EachObstacle', 'obstacle');">+</a></span>
+    <span> Obstacle: <a class="button red" onclick="ST.rmEach('#EachObstacle', 'obstacle');">-</a> <span id="EachObstacle">0 times</span> <a class="button green" onclick="ST.addEach('#EachObstacle', 'obstacle');">+</a></span>
     <br/>
-    <span> Speed Bump: <a class="button red" onclick="ST.rmEach('#EachSpeedBump', 'speed_bump');">-</a> <span id="EachSpeedBump">0. times</span> <a class="button green" onclick="ST.addEach('#EachSpeedBump', 'speed_bump');">+</a></span>
+    <span> Speed Bump: <a class="button red" onclick="ST.rmEach('#EachSpeedBump', 'speed_bump');">-</a> <span id="EachSpeedBump">0 times</span> <a class="button green" onclick="ST.addEach('#EachSpeedBump', 'speed_bump');">+</a></span>
     <br/>
-    <span> Intersection: <a class="button red" onclick="ST.rmEach('#EachIntersection', 'intersection');">-</a> <span id="EachIntersection">0. times</span> <a class="button green" onclick="ST.addEach('#EachIntersection', 'intersection');">+</a></span>
+    <span> Intersection: <a class="button red" onclick="ST.rmEach('#EachIntersection', 'intersection');">-</a> <span id="EachIntersection">0 times</span> <a class="button green" onclick="ST.addEach('#EachIntersection', 'intersection');">+</a></span>
     </div>
 
   <div id="scores_each" class="scores" style="width: 50%;">
