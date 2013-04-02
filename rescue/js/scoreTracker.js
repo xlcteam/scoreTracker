@@ -31,17 +31,17 @@ scoreTracker.prototype = {
     addTry: function (Try, string){
         if ($this.scores[string] < 3){
             $this.scores[string]++;
-            $(Try).html($this.scores[string] + ". try");
+            $(Try).html($this.scores[string] + '. <span style="font-size: 50%;">try<span>');
         } else {
             $this.scores[string] = 4;
-            $(Try).html("-------");
+            $(Try).html("-----");
         }
     },
 
     rmTry: function (Try, string){
         if ($this.scores[string] > 0){
             $this.scores[string]--;
-            $(Try).html($this.scores[string] + ". try");  
+            $(Try).html($this.scores[string] + '. <span style="font-size: 50%;">try<span>');  
         } 
     },
 
