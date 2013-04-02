@@ -9,17 +9,20 @@ function scoreTracker(options)
     $this.update_url = options['update_url'];
 
     $this.scores = {
-        'room1' : 0,
-        'room2' : 0,
-        'room3' : 0,
-        'ramp'  : 0,
-        'hallway':0,
-        'victim': 0,
-
-        'gap' : 0,
-        'obstacle': 0,
-        'speed_bump': 0,
-        'intersection': 0,
+        'try' : {
+            'room1' : 0,
+            'room2' : 0,
+            'room3' : 0,
+            'ramp'  : 0,
+            'hallway':0,
+            'victim': 0,
+        },
+        'each' : {
+            'gap' : 0,
+            'obstacle': 0,
+            'speed_bump': 0,
+            'intersection': 0,
+        }
     }
 
 }
@@ -29,31 +32,31 @@ scoreTracker.prototype = {
     },
 
     addTry: function (Try, string){
-        if ($this.scores[string] < 3){
-            $this.scores[string]++;
-            $(Try).html($this.scores[string] + '. <span style="font-size: 50%;">try<span>');
+        if ($this.scores["try"][string] < 3){
+            $this.scores["try"][string]++;
+            $(Try).html($this.scores["try"][string] + '. <span style="font-size: 50%;">try<span>');
         } else {
-            $this.scores[string] = 4;
+            $this.scores["try"][string] = 4;
             $(Try).html("-----");
         }
     },
 
     rmTry: function (Try, string){
-        if ($this.scores[string] > 0){
-            $this.scores[string]--;
-            $(Try).html($this.scores[string] + '. <span style="font-size: 50%;">try<span>');  
+        if ($this.scores["try"][string] > 0){
+            $this.scores["try"][string]--;
+            $(Try).html($this.scores["try"][string] + '. <span style="font-size: 50%;">try<span>');  
         } 
     },
 
     addEach: function (Each, string){
-        $this.scores[string]++;
-        $(Each).html($this.scores[string] + '<span style="font-size: 50%;">x</span>');              
+        $this.scores["each"][string]++;
+        $(Each).html($this.scores["each"][string] + '<span style="font-size: 50%;">x</span>');              
     }, 
 
     rmEach: function (Each, string){
-        if ($this.scores[string] > 0)
-            $this.scores[string]--;
-        $(Each).html($this.scores[string] + '<span style="font-size: 50%;">x</span>');  
+        if ($this.scores["each"][string] > 0)
+            $this.scores["each"][string]--;
+        $(Each).html($this.scores["each"][string] + '<span style="font-size: 50%;">x</span>');  
     },
 
     resetScore: function (){
@@ -179,10 +182,7 @@ scoreTracker.prototype = {
 	    $("#dialog").dialog({ 
             buttons: {
             "Send results": function() {
-                var df = confirm("Are you sure you want to save these results?\n\n" +
-                    $this.teamA + ' ' +
-                    $this.scoreA + " : " + $this.scoreB + ' ' +
-                    $this.teamB);
+                var df = confirm("Are you sure you want to save these results?");
 
                 if (df)
                     $('#dialogForm').submit();  
@@ -191,12 +191,18 @@ scoreTracker.prototype = {
 
                 }	
             },
-            width: 500,
-            height: 250
+            width: 550,
+            height: 430
         });
-	    $('#dname').html($('#name1').text());
-	    $('#d2name').html($('#name2').text());
-	    $('#dgoals').val($('#team1').text());
-	    $('#d2goals').val($('#team2').text());
+
+        for (x in $this.scores["try"]){
+            $('#' + x).val($this.scores["try"][x]);
+        }
+
+        for (y in $this.scores["each"]){
+            $('#' + y).val($this.scores["each"][y]);
+        }
+
+        $('#time_dialog').val($('#time').html());
     }
 }

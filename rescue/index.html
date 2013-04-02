@@ -76,6 +76,7 @@
 				<div id="fragment-1">
 					<div class="placeholder"><button id="btnResetTime" onclick="ST.resetTime()">Reset Time</button></div>
 					<div class="placeholder"><button id="btnResetScore" onclick="ST.resetScore()">Reset Score</button></div>
+					<div class="placeholder"><button id="btnShowDialog" onclick="ST.showD()">Show Dialog</button></div>
 				</div>
 
 			</div>
@@ -92,30 +93,72 @@
 
 	<!-- dialog, hidden at the begin of game by jquery funct .hide() -->
 	<div id="dialogMain">
-			<div id="dialog" title="Results" style="font-size:50.5%;">
-				<div style="margin: 0 auto;height: 70px; font-size:130.5%;">
-          <form action="" method="POST" id="dialogForm">
-                <table style="width: 270px; margin: 0 auto;">
-                  <tr>
-                    <td style="width: 100px; text-align: right;"> <span id="dname"></span> </td>
-                    <td> <input style="width: 30px;" type="text"
-                      name="scoreA" id="dgoals"/> </td>
-                    <td> <b>:</b> </td>
-                    <td>  <input style="width: 30px;" type="text"
-                      name="scoreB" id="d2goals"/> </td>
-                    <td style="width: 100px; text-align: left;"><span id="d2name"></span> </td>
-                  </tr>
-               </table>
-               <table style="padding-top: 40px;">
-                  <tr>
-                    <td>Your password: </td>
-                    <td><input type="password" name="pass" /> </td>
-                  </tr>
-               </table>
-                <input type="hidden" name="final" value="true" />
-          </form>
-				</div>
+    <div id="dialog" title="Results of the team Robot" style="font-size:50.5%;">
+			<div style="height: 70px; font-size:130.5%;text-align: center;">
+        <form action="" method="POST" id="dialogForm">
+          <table style="width: 50%; float: right;">
+            <tr>
+              <td style="float: right;">Gap:</td>
+              <td> <input style="width: 30px;" type="text" id="gap" />x</td>
+            <tr>
+            <tr>
+              <td style="float: right;">Obstacle:</td>
+              <td> <input style="width: 30px;" type="text" id="obstacle" />x</td>
+            <tr>
+            <tr>
+              <td style="float: right;">Speed bump:</td>
+              <td> <input style="width: 30px;" type="text" id="speed_bump" />x</td>
+            <tr>
+            <tr>
+              <td style="float: right;">Intersection:</td>
+              <td> <input style="width: 30px;" type="text" id="intersection" />x</td>
+            <tr>
+          </table>
+           
+          <table style="width: 50%;">
+            <tr>
+              <td style="float: right;">Room 1:</td>
+              <td> <input style="width: 30px;" type="text" id="room1" />. try</td>
+            </tr>
+            <tr>
+              <td style="float: right;">Room 2:</td>
+              <td> <input style="width: 30px;" type="text" id="room2" />. try</td>
+            </tr>
+            <tr>
+              <td style="float: right;">Room 3:</td>
+              <td> <input style="width: 30px;" type="text" id="room3" />. try</td>
+            </tr>
+            <tr>
+              <td style="float: right;">Ramp:</td>
+              <td> <input style="width: 30px;" type="text" id="ramp" />. try</td>
+            </tr>
+            <tr>
+              <td style="float: right;">Hallway:</td>
+              <td> <input style="width: 30px;" type="text" id="hallway" />. try</td>
+            </tr>
+            <tr>
+              <td style="float: right;">Victim:</td>
+              <td> <input style="width: 30px;" type="text" id="victim" />. try</td>
+            </tr> 
+          </table>
+
+          <table style="margin: 0 auto;">
+            <tr> 
+              <td>Time:</td> 
+              <td><input style="width: 130px;" type="text" id="time_dialog" /></td>
+            </tr>
+          </table>
+          
+          <table style="padding-top: 10px;">
+            <tr>
+              <td>Your password: </td>
+              <td><input type="password" name="pass" /> </td>
+            </tr>
+          </table>
+          <input type="hidden" name="final" value="true" />
+        </form>
 			</div>
+		</div>
 	</div>
     
   <div id="names">
@@ -202,7 +245,7 @@
   <div style="clear:both;"></div>
 
   <div id="timeBar" class="element3">
-		<div id="time" class="time"><span >00:00,00</span></div>
+		<div id="time" class="time">00:00,00</div>
 	</div>
 	<div id="halftime" class="halftime"><span>1.</span></div>
   <div style="clear: both;"></div>
