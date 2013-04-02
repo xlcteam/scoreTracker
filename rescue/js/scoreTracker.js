@@ -23,8 +23,24 @@ function scoreTracker(options)
             'speed_bump': 0,
             'intersection': 0,
         }
-    }
+    };
 
+    $this.scoresheet = {
+        'try' : {
+            'room1' : {1 : 60, 2 : 40, 3 : 20},
+            'room2' : {1 : 60, 2 : 40, 3 : 20},
+            'room3' : {1 : 60, 2 : 40, 3 : 20},
+            'ramp'  : {1 : 30, 2 : 20, 3 : 10},
+            'hallway':{1 : 30, 2 : 20, 3 : 10},
+            'victim': {1 : 60, 2 : 40, 3 : 20},      
+        },
+        'each' : {
+            'gap' : 10,
+            'obstacle': 10,
+            'speed_bump': 5,
+            'intersection': 10,
+        }
+    }
 }
 
 scoreTracker.prototype = { 
@@ -192,7 +208,7 @@ scoreTracker.prototype = {
                 }	
             },
             width: 550,
-            height: 430
+            height: 435
         });
 
         for (x in $this.scores["try"]){
@@ -203,6 +219,20 @@ scoreTracker.prototype = {
             $('#' + y).val($this.scores["each"][y]);
         }
 
+        // count score
+        for (x in $this.scores["try"]){
+            if ($this.scores["try"][x] > 0 && $this.scores["try"][x] < 4)
+                $this.final_score += $this.scoresheet['try'][x][$this.scores["try"][x]];
+        }
+        for (y in $this.scores["each"]){
+            $this.final_score += $this.scores["each"][y] * $this.scoresheet['each'][y];
+        }
+
+        $('#points_dialog').val($this.final_score);
         $('#time_dialog').val($('#time').html());
+    },
+
+    recount: function () {
+
     }
 }

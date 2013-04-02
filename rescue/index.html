@@ -142,13 +142,22 @@
             </tr> 
           </table>
 
-          <table style="margin: 0 auto;">
-            <tr> 
-              <td>Time:</td> 
-              <td><input style="width: 130px;" type="text" id="time_dialog" /></td>
-            </tr>
-          </table>
-          
+          <div style="width: 100%; text-alig: center;">
+            <table style="float: right;">
+              <tr>
+                <td><strong>Points:</strong></td>
+                <td><input style="width: 130px;" type="text" id="points_dialog" /></td>
+                <td><input type="button" value="Recount" onclick="ST.recount();"/></td>
+              </tr>
+            </table>
+            <table>
+              <tr> 
+                <td>Time:</td> 
+                <td><input style="width: 130px;" type="text" id="time_dialog" /></td>
+              </tr>
+            </table>
+          </div>
+          <hr>
           <table style="padding-top: 10px;">
             <tr>
               <td>Your password: </td>
