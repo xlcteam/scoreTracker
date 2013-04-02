@@ -219,7 +219,12 @@ scoreTracker.prototype = {
             $('#' + y).val($this.scores["each"][y]);
         }
 
-        // count score
+        $this.scoreCount();
+        $('#time_dialog').val($('#time').html());
+    },
+
+    scoreCount: function (){
+        $this.final_score = 0;
         for (x in $this.scores["try"]){
             if ($this.scores["try"][x] > 0 && $this.scores["try"][x] < 4)
                 $this.final_score += $this.scoresheet['try'][x][$this.scores["try"][x]];
@@ -229,10 +234,16 @@ scoreTracker.prototype = {
         }
 
         $('#points_dialog').val($this.final_score);
-        $('#time_dialog').val($('#time').html());
     },
 
     recount: function () {
+        for (x in $this.scores["try"]){
+            $this.scores["try"][x] = $('#' + x).val();
+        }
 
+        for (y in $this.scores["each"]){
+            $this.scores["each"][y] = $('#' + y).val();
+        }
+        $this.scoreCount();
     }
 }
