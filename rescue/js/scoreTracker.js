@@ -212,7 +212,11 @@ scoreTracker.prototype = {
         });
 
         for (x in $this.scores["try"]){
-            $('#' + x).val($this.scores["try"][x]);
+            if ($this.scores["try"][x] == 4){
+                $('#' + x).val("---");
+            } else {
+                $('#' + x).val($this.scores["try"][x]);
+            }        
         }
 
         for (y in $this.scores["each"]){
@@ -238,7 +242,12 @@ scoreTracker.prototype = {
 
     recount: function () {
         for (x in $this.scores["try"]){
-            $this.scores["try"][x] = $('#' + x).val();
+            if ($this.scores["try"][x] == '' ||
+                    $this.scores["try"][x] == '---'){
+                $this.scores["try"][x] = 4;
+            }else {
+                $this.scores["try"][x] = $('#' + x).val();
+            }        
         }
 
         for (y in $this.scores["each"]){
