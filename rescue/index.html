@@ -9,9 +9,9 @@
     <script src="js/lib/jquery.keylock.js"></script>
     <script src="js/lib/jquery.idle-timer.js"></script>
     <script src="js/lib/jquery.stopwatch.js"></script>
-    <script src="js/scoreTracker.js"></script>
+    <script src="js/scoreTracker_rescue.js"></script>
     <script src="js/fills.js"></script>
-    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/style_rescue.css"/>
     <link rel="stylesheet" href="css/jquery-ui.css" type="text/css"/>
 
     <script>
@@ -99,46 +99,46 @@
           <table style="width: 50%; float: right;">
             <tr>
               <td style="float: right;">Gap:</td>
-              <td> <input style="width: 30px;" type="text" id="gap" />x</td>
+              <td> <input style="width: 30px;" type="text" id="gap" name="gap"/>x</td>
             <tr>
             <tr>
               <td style="float: right;">Obstacle:</td>
-              <td> <input style="width: 30px;" type="text" id="obstacle" />x</td>
+              <td> <input style="width: 30px;" type="text" id="obstacle" name="obstacle"/>x</td>
             <tr>
             <tr>
               <td style="float: right;">Speed bump:</td>
-              <td> <input style="width: 30px;" type="text" id="speed_bump" />x</td>
+              <td> <input style="width: 30px;" type="text" id="speed_bump" name="speed_bump"/>x</td>
             <tr>
             <tr>
               <td style="float: right;">Intersection:</td>
-              <td> <input style="width: 30px;" type="text" id="intersection" />x</td>
+              <td> <input style="width: 30px;" type="text" id="intersection" name="intersection"/>x</td>
             <tr>
           </table>
            
           <table style="width: 50%;">
             <tr>
               <td style="float: right;">Room 1:</td>
-              <td> <input style="width: 30px;" type="text" id="room1" />. try</td>
+              <td> <input style="width: 30px;" type="text" id="room1" name="room1"/>. try</td>
             </tr>
             <tr>
               <td style="float: right;">Room 2:</td>
-              <td> <input style="width: 30px;" type="text" id="room2" />. try</td>
+              <td> <input style="width: 30px;" type="text" id="room2" name="room2"/>. try</td>
             </tr>
             <tr>
               <td style="float: right;">Room 3:</td>
-              <td> <input style="width: 30px;" type="text" id="room3" />. try</td>
+              <td> <input style="width: 30px;" type="text" id="room3" name="room3"/>. try</td>
             </tr>
             <tr>
               <td style="float: right;">Ramp:</td>
-              <td> <input style="width: 30px;" type="text" id="ramp" />. try</td>
+              <td> <input style="width: 30px;" type="text" id="ramp" name="ramp"/>. try</td>
             </tr>
             <tr>
               <td style="float: right;">Hallway:</td>
-              <td> <input style="width: 30px;" type="text" id="hallway" />. try</td>
+              <td> <input style="width: 30px;" type="text" id="hallway" name="hallway"/>. try</td>
             </tr>
             <tr>
               <td style="float: right;">Victim:</td>
-              <td> <input style="width: 30px;" type="text" id="victim" />. try</td>
+              <td> <input style="width: 30px;" type="text" id="victim" name="victim"/>. try</td>
             </tr> 
           </table>
 
@@ -146,14 +146,14 @@
             <table style="float: right;">
               <tr>
                 <td><strong>Points:</strong></td>
-                <td><input style="width: 130px;" type="text" id="points_dialog" /></td>
+                <td><input style="width: 130px;" type="text" id="points_dialog" name="points_dialog"/></td>
                 <td><input type="button" value="Recount" onclick="ST.recount();"/></td>
               </tr>
             </table>
             <table>
               <tr> 
                 <td>Time:</td> 
-                <td><input style="width: 130px;" type="text" id="time_dialog" /></td>
+                <td><input style="width: 130px;" type="text" id="time_dialog" name="time_dialog"/></td>
               </tr>
             </table>
           </div>
@@ -211,42 +211,42 @@
       <tr>
         <td>Room 1:</td>
         <td><a class="button red" onclick="ST.rmTry('#Tryroom1', 'room1');">-</a></td>
-        <td><span id="Tryroom1" style="color: #ffffff;">0. <span style="font-size: 50%;">try</span></span></td>
+        <td><span id="Tryroom1" style="color: #ffffff;">1. <span style="font-size: 50%;">try</span></span></td>
         <td><a class="button green" onclick="ST.addTry('#Tryroom1', 'room1');">+</a></td>
       </tr>
 
       <tr>
         <td>Room 2:</td>
         <td><a class="button red" onclick="ST.rmTry('#Tryroom2', 'room2');">-</a></td>
-        <td><span id="Tryroom2" style="color: #ffffff;">0. <span style="font-size: 50%;">try</span></span></td>
+        <td><span id="Tryroom2" style="color: #ffffff;">1. <span style="font-size: 50%;">try</span></span></td>
         <td><a class="button green" onclick="ST.addTry('#Tryroom2', 'room2');">+</a></td>
       </tr>
 
       <tr>
         <td>Room 3:</td>
         <td><a class="button red" onclick="ST.rmTry('#Tryroom3', 'room3');">-</a></td>
-        <td><span id="Tryroom3" style="color: #ffffff;">0. <span style="font-size: 50%;">try</span></span></td>
+        <td><span id="Tryroom3" style="color: #ffffff;">1. <span style="font-size: 50%;">try</span></span></td>
         <td><a class="button green" onclick="ST.addTry('#Tryroom3', 'room3');">+</a></td>
       </tr>
 
       <tr>
         <td>Ramp:</td>
         <td><a class="button red" onclick="ST.rmTry('#Tryramp', 'ramp');">-</a></td>
-        <td><span id="Tryramp" style="color: #ffffff;">0. <span style="font-size: 50%;">try</span></span></td>
+        <td><span id="Tryramp" style="color: #ffffff;">1. <span style="font-size: 50%;">try</span></span></td>
         <td><a class="button green" onclick="ST.addTry('#Tryramp', 'ramp');">+</a></td>
       </tr>
 
       <tr>
         <td>Hallway:</td>
         <td><a class="button red" onclick="ST.rmTry('#Tryhallway', 'hallway');">-</a></td>
-        <td><span id="Tryhallway" style="color: #ffffff;">0. <span style="font-size: 50%;">try</span></span></td>
+        <td><span id="Tryhallway" style="color: #ffffff;">1. <span style="font-size: 50%;">try</span></span></td>
         <td><a class="button green" onclick="ST.addTry('#Tryhallway', 'hallway');">+</a></td>
       </tr>
 
       <tr>
         <td>Victim:</td>
         <td><a class="button red" onclick="ST.rmTry('#Tryvictim', 'victim');">-</a></td>
-        <td><span id="Tryvictim" style="color: #ffffff;">0. <span style="font-size: 50%;">try</span></span></td>
+        <td><span id="Tryvictim" style="color: #ffffff;">1. <span style="font-size: 50%;">try</span></span></td>
         <td><a class="button green" onclick="ST.addTry('#Tryvictim', 'victim');">+</a></td>
       </tr>
     </table>     

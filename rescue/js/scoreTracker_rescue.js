@@ -10,12 +10,12 @@ function scoreTracker(options)
 
     $this.scores = {
         'try' : {
-            'room1' : 0,
-            'room2' : 0,
-            'room3' : 0,
-            'ramp'  : 0,
-            'hallway':0,
-            'victim': 0,
+            'room1' : 1,
+            'room2' : 1,
+            'room3' : 1,
+            'ramp'  : 1,
+            'hallway':1,
+            'victim': 1,
         },
         'each' : {
             'gap' : 0,
@@ -58,7 +58,7 @@ scoreTracker.prototype = {
     },
 
     rmTry: function (Try, string){
-        if ($this.scores["try"][string] > 0){
+        if ($this.scores["try"][string] > 1){
             $this.scores["try"][string]--;
             $(Try).html($this.scores["try"][string] + '. <span style="font-size: 50%;">try<span>');  
         } 
