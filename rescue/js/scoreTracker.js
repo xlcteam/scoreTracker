@@ -76,7 +76,16 @@ scoreTracker.prototype = {
     },
 
     resetScore: function (){
-        $this.score = 0;
+        $this.final_score = 0;
+
+        for (i in $this.scores["try"]){
+            $this.scores["try"][i] = 0;
+            $("#Try" + $this.scores["try"][i]).html("0. <span style='font-size: 50%;'>try<span>")
+        }
+        for (j in $this.scores["each"]){
+            $this.scores["each"][i] = 0;
+            $("#Each" + this.scores["each"][i]).html('0 <span style="font-size: 50%;">x</span>');  
+        }
         
     },
 
@@ -105,11 +114,6 @@ scoreTracker.prototype = {
         $this.toggle();
     },
 
-    toggleHalf: function (){
-        $('#halftime').html('2.');
-	    $this.toggle();
-    },
-
     resetTime: function (){
 	    if ($("#btnStart").html() == "Resume" || $("#btnStart").html() == "Pause") {
             $("#time").stopwatch().stopwatch('stop');		
@@ -128,18 +132,6 @@ scoreTracker.prototype = {
         return;
     },
 
-    newTime: function (){
-	    var inpMins = $('#fmins').val();
-	    var inpSecs = $('#fsecs').val();
-	
-        $this.mins = inpMins;
-        $this.secs = inpSecs;
-        $('.saved').fadeIn(200).delay(500).fadeOut(200);
-        
-        return false;
-    },
-
-
     format: function (millis){
         function pad2(number) {
             return (number < 10 ? '0' : '') + number;
@@ -152,44 +144,6 @@ scoreTracker.prototype = {
         millis = Math.floor(millis % 1000);                                
         millis = Math.floor(millis / 10);
 		
-        if ($this.halftime == 1 && minutes >= $this.mins / 2){
-            if (seconds >= $this.secs / 2){
-			    $("#time").stopwatch().stopwatch('stop');
-                $this.toggleHalf();
-                $this.halftime = 2;
-                $('#startText').html("Start 2nd half");
-                $('#startAll').show();
-                $this.playWhistle();	
-            }				
-        }else if ($this.halftime == 2 && minutes >= $this.mins){
-            if (seconds >= $this.secs){
-                $("#time").stopwatch().stopwatch('stop');        
-                $.idleTimer('destroy');
-                $this.finished = true;
-
-                //spaghetti unbind code
-                $(".element1").unbind("mouseover", fill1);
-                $(".element1").unbind("mouseout", unfill1);
-                $(".element2").unbind("mouseover", fill2);
-                $(".element2").unbind("mouseout", unfill2);
-                $(".element3").unbind("mouseover", fill3);
-                $(".element3").unbind("mouseout", unfill3);
-                $(".leftBckg").unbind("mouseover", fill1);
-                $(".leftBckg").unbind("mouseout", unfill1);
-                $(".rightBckg").unbind("mouseover", fill2);
-                $(".rightBckg").unbind("mouseout", unfill2);
-                $(".startBckg").unbind("mouseover", fill3);
-                $(".startBckg").unbind("mouseout", unfill3);
-
-
-                $(".startBckg, .leftBckg, .rightBckg").fadeIn("fast");
-                $(".startBckg, .leftBckg, .rightBckg").css('opacity', '0.7');
-                $(".startBckg, .leftBckg, .rightBckg").css('background', '#000000');
-                $(".startText, .goalRText, .goalLText").hide();
-                $this.playWhistle();
-                $this.showD();
-            }
-        }
         return [pad2(minutes), pad2(seconds)].join(':') + ',' + pad2(millis);
     },
 
