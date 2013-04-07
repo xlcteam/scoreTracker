@@ -2,43 +2,47 @@ function scoreTracker(options)
 {
     $this = this;
     $this.team = 'Robot';
-    $this.final_score = 0;;
+    $this.final_score = 0;
 
+    $this.mins = 8;
+    $this.secs = 0;
     $this.finished = false;
     $this.back_url = options['back_url'];
     $this.update_url = options['update_url'];
 
     $this.scores = {
         'try' : {
-            'room1' : 1,
-            'room2' : 1,
-            'room3' : 1,
-            'ramp'  : 1,
-            'hallway':1,
-            'victim': 1,
+            'room1' : 0,
+            'room2' : 0,
+            'room3' : 0,
+            'ramp'  : 0,
+            'hallway':0,
+            'victim': 0,
         },
         'each' : {
             'gap' : 0,
             'obstacle': 0,
             'speed_bump': 0,
             'intersection': 0,
+            'lift': 0,
         }
     };
 
     $this.scoresheet = {
         'try' : {
-            'room1' : {1 : 60, 2 : 40, 3 : 20},
-            'room2' : {1 : 60, 2 : 40, 3 : 20},
-            'room3' : {1 : 60, 2 : 40, 3 : 20},
-            'ramp'  : {1 : 30, 2 : 20, 3 : 10},
-            'hallway':{1 : 30, 2 : 20, 3 : 10},
-            'victim': {1 : 60, 2 : 40, 3 : 20},      
+            'room1' : {1 : 60, 2 : 40, 3 : 20, '---' : 0},
+            'room2' : {1 : 60, 2 : 40, 3 : 20, '---' : 0},
+            'room3' : {1 : 60, 2 : 40, 3 : 20, '---' : 0},
+            'ramp'  : {1 : 30, 2 : 20, 3 : 10, '---' : 0},
+            'hallway':{1 : 30, 2 : 20, 3 : 10, '---' : 0},
+            'victim': {1 : 60, 2 : 40, 3 : 20, '---' : 0},      
         },
         'each' : {
             'gap' : 10,
             'obstacle': 10,
             'speed_bump': 5,
             'intersection': 10,
+            'lift': 20,
         }
     }
 }
@@ -58,9 +62,13 @@ scoreTracker.prototype = {
     },
 
     rmTry: function (Try, string){
-        if ($this.scores["try"][string] > 1){
+        if ($this.scores["try"][string] > 0){
             $this.scores["try"][string]--;
-            $(Try).html($this.scores["try"][string] + '. <span style="font-size: 50%;">try<span>');  
+            if ($this.scores["try"][string] == 0){
+                $(Try).html('-----');  
+            } else {
+                $(Try).html($this.scores["try"][string] + '. <span style="font-size: 50%;">try<span>');  
+            }
         } 
     },
 
@@ -98,12 +106,11 @@ scoreTracker.prototype = {
 
         if ($("#btnStart").html() == "Start" || $("#btnStart").html() == "Resume"){
             $("#btnStart").html('Pause')
-	        $("#time").stopwatch({formatter: $this.format, updateInterval: 50})
-                        .stopwatch('start');
+	        $("#timeStopwatch").stopwatch({formatter: $this.format, updateInterval: 50}).stopwatch('start');
             return;
         } else if ($("#btnStart").html() == "Pause"){
             $("#btnStart").html("Resume");
-	        $("#time").stopwatch().stopwatch('stop');
+	        $("#timeStopwatch").stopwatch().stopwatch('stop');
 	        return;
         }
     },
@@ -116,9 +123,9 @@ scoreTracker.prototype = {
 
     resetTime: function (){
 	    if ($("#btnStart").html() == "Resume" || $("#btnStart").html() == "Pause") {
-            $("#time").stopwatch().stopwatch('stop');		
-            $("#time").stopwatch().stopwatch('reset');
-            $("#time").html("00:00,00");
+            $("#timeStopwatch").stopwatch().stopwatch('stop');		
+            $("#timeStopwatch").stopwatch().stopwatch('reset');
+            $("#timeStopwatch").html("00:00,00");
             $("#btnStart").html("Start");
         }
         if ($("#startAll").is(':hidden')){
@@ -143,6 +150,15 @@ scoreTracker.prototype = {
         seconds = Math.floor(millis / 1000);                               
         millis = Math.floor(millis % 1000);                                
         millis = Math.floor(millis / 10);
+
+        if (minutes >= $this.mins){
+            if (seconds >= $this.secs){
+                $("#timeStopwatch").stopwatch().stopwatch('stop');        
+                $.idleTimer('destroy');
+                $this.finished = true;
+                $this.showD();
+            }
+        }
 		
         return [pad2(minutes), pad2(seconds)].join(':') + ',' + pad2(millis);
     },
@@ -152,6 +168,8 @@ scoreTracker.prototype = {
 	    $("#dialog").dialog({ 
             buttons: {
             "Send results": function() {
+                window.onbeforeunload = function(){}
+
                 var df = confirm("Are you sure you want to save these results?");
 
                 if (df)
@@ -162,7 +180,7 @@ scoreTracker.prototype = {
                 }	
             },
             width: 550,
-            height: 435
+            height: 440
         });
 
         for (x in $this.scores["try"]){
@@ -178,7 +196,7 @@ scoreTracker.prototype = {
         }
 
         $this.scoreCount();
-        $('#time_dialog').val($('#time').html());
+        $('#time').val($('#timeStopwatch').html());
     },
 
     scoreCount: function (){
@@ -191,13 +209,13 @@ scoreTracker.prototype = {
             $this.final_score += $this.scores["each"][y] * $this.scoresheet['each'][y];
         }
 
-        $('#points_dialog').val($this.final_score);
+        $('#points').val($this.final_score);
     },
 
     recount: function () {
         for (x in $this.scores["try"]){
             if ($this.scores["try"][x] == '' ||
-                    $this.scores["try"][x] == '---'){
+                    $this.scores["try"][x] == '---' || $this.scores["try"][x] == 0){
                 $this.scores["try"][x] = 4;
             }else {
                 $this.scores["try"][x] = $('#' + x).val();
