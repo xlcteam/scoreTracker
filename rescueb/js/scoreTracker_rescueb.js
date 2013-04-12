@@ -11,90 +11,45 @@ function scoreTracker(options)
     $this.update_url = options['update_url'];
 
     $this.scores = {
-        'try' : {
-            'room1' : 0,
-            'room2' : 0,
-            'room3' : 0,
-            'ramp'  : 0,
-            'hallway':0,
-            'victim': 0,
-        },
-        'each' : {
-            'gap' : 0,
-            'obstacle': 0,
-            'speed_bump': 0,
-            'intersection': 0,
-            'lift': 0,
-        }
+          'floating_victim' : 0,
+          'linear_victim': 0,
+          'false_victim' : 0,
+          'lack_of_progress': 0,
+          'successful_exit': 0,
     };
 
     $this.scoresheet = {
-        'try' : {
-            'room1' : {1 : 60, 2 : 40, 3 : 20, '---' : 0},
-            'room2' : {1 : 60, 2 : 40, 3 : 20, '---' : 0},
-            'room3' : {1 : 60, 2 : 40, 3 : 20, '---' : 0},
-            'ramp'  : {1 : 30, 2 : 20, 3 : 10, '---' : 0},
-            'hallway':{1 : 30, 2 : 20, 3 : 10, '---' : 0},
-            'victim': {1 : 60, 2 : 40, 3 : 20, '---' : 0},      
-        },
-        'each' : {
-            'gap' : 10,
-            'obstacle': 10,
-            'speed_bump': 5,
-            'intersection': 10,
-            'lift': 20,
-        }
-    }
+          'floating_victim' : 25,
+          'linear_victim': 10,
+          'false_victim' : -10,
+          'successful_exit': 10,
+    };
 }
 
 scoreTracker.prototype = { 
     syncPerf: function (){
     },
 
-    addTry: function (Try, string){
-        if ($this.scores["try"][string] < 3){
-            $this.scores["try"][string]++;
-            $(Try).html($this.scores["try"][string] + '. <span style="font-size: 50%;">try<span>');
-        } else {
-            $this.scores["try"][string] = 4;
-            $(Try).html("-----");
-        }
-    },
-
-    rmTry: function (Try, string){
-        if ($this.scores["try"][string] > 0){
-            $this.scores["try"][string]--;
-            if ($this.scores["try"][string] == 0){
-                $(Try).html('-----');  
-            } else {
-                $(Try).html($this.scores["try"][string] + '. <span style="font-size: 50%;">try<span>');  
-            }
-        } 
-    },
 
     addEach: function (Each, string){
-        if (string == 'lift' && $this.scores["each"][string] == 1){
+        if (string == 'successful_exit' && $this.scores[string] == 1){
             return;    
         }
-        $this.scores["each"][string]++;
-        $(Each).html($this.scores["each"][string] + '<span style="font-size: 50%;">x</span>');              
+        $this.scores[string]++;
+        $(Each).html($this.scores[string] + '<span style="font-size: 50%;">x</span>');              
     }, 
 
     rmEach: function (Each, string){
-        if ($this.scores["each"][string] > 0)
-            $this.scores["each"][string]--;
-        $(Each).html($this.scores["each"][string] + '<span style="font-size: 50%;">x</span>');  
+        if ($this.scores[string] > 0)
+            $this.scores[string]--;
+        $(Each).html($this.scores[string] + '<span style="font-size: 50%;">x</span>');  
     },
 
     resetScore: function (){
         $this.final_score = 0;
 
-        for (i in $this.scores["try"]){
-            $this.scores["try"][i] = 0;
-            $("#Try" + i).html("-----")
-        }
-        for (j in $this.scores["each"]){
-            $this.scores["each"][j] = 0;
+        for (j in $this.scores){
+            $this.scores[j] = 0;
             $("#Each" + j).html('0<span style="font-size: 50%;">x</span>');  
         }
         
@@ -197,16 +152,9 @@ scoreTracker.prototype = {
             height: 440
         });
 
-        for (x in $this.scores["try"]){
-            if ($this.scores["try"][x] == 4){
-                $('#' + x).val(0);
-            } else {
-                $('#' + x).val($this.scores["try"][x]);
-            }        
-        }
 
-        for (y in $this.scores["each"]){
-            $('#' + y).val($this.scores["each"][y]);
+        for (y in $this.scores){
+            $('#' + y).val($this.scores[y]);
         }
 
         $this.scoreCount();
@@ -215,29 +163,34 @@ scoreTracker.prototype = {
 
     scoreCount: function (){
         $this.final_score = 0;
-        for (x in $this.scores["try"]){
-            if ($this.scores["try"][x] > 0 && $this.scores["try"][x] < 4)
-                $this.final_score += $this.scoresheet['try'][x][$this.scores["try"][x]];
-        }
-        for (y in $this.scores["each"]){
-            $this.final_score += $this.scores["each"][y] * $this.scoresheet['each'][y];
-        }
 
+        // floating victims
+        $this.final_score += $this.scores["floating_victim"] * $this.scoresheet["floating_victim"];
+        // linear victims        
+        $this.final_score += $this.scores["linear_victim"] * $this.scoresheet["linear_victim"];
+        // false victims
+        $this.final_score += $this.scores["false_victim"] * $this.scoresheet["false_victim"];
+        // successful exit bonus
+        if ($this.scores["successful_exit"])
+          $this.final_score += ($this.scores["floating_victim"] + $this.scores["linear_victim"]) * $this.scoresheet["successful_exit"];
+
+        // reliability
+        var reliability = 0;
+        reliability += ($this.scores["floating_victim"] + $this.scores["linear_victim"] - $this.scores["lack_of_progress"]) * 10;
+
+        if (reliability < 0){
+          reliability = 0;
+        } else {
+          $this.final_score += reliability;
+        }    
+
+        $('#reliability').val(reliability);
         $('#points').val($this.final_score);
     },
 
     recount: function () {
-        for (x in $this.scores["try"]){
-            if ($this.scores["try"][x] == '' ||
-                    $this.scores["try"][x] == '---' || $this.scores["try"][x] == 0){
-                $this.scores["try"][x] = 4;
-            }else {
-                $this.scores["try"][x] = $('#' + x).val();
-            }        
-        }
-
-        for (y in $this.scores["each"]){
-            $this.scores["each"][y] = $('#' + y).val();
+        for (y in $this.scores){
+            $this.scores[y] = $('#' + y).val();
         }
         $this.scoreCount();
     }
