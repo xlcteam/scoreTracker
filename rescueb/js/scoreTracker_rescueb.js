@@ -190,7 +190,7 @@ scoreTracker.prototype = {
 
     recount: function () {
         for (y in $this.scores){
-            $this.scores[y] = $('#' + y).val();
+            $this.scores[y] = parseInt($('#' + y).val());
         }
         $this.scoreCount();
     }
