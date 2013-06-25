@@ -364,3 +364,10 @@ button:active {
 .rightPenalties {
   float: right
 }
+
+.penalty1, .penalty2 {
+  width: 50%;
+  position: relative;
+  float: left;
+  height: 100%;
+}
