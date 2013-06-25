@@ -149,6 +149,16 @@
             $(".rightBckg").bind("mouseout", unfill2);
             $(".startBckg").bind("mouseover", fill3);
             $(".startBckg").bind("mouseout", unfill3);
+
+            $(".penalty1, .penalty2").mouseover(function(){
+              $(this).css('background-color', '#c78a35');
+              $(this).css('color', 'black');
+            });
+            $(".penalty1, .penalty2").mouseout(function(){
+              $(this).css('background-color', 'black');
+              $(this).css('color', 'white');
+            });
+
 		});
 
 
