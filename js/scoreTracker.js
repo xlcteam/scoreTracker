@@ -245,5 +245,20 @@ scoreTracker.prototype = {
 	    $('#d2name').html($('#name2').text());
 	    $('#dgoals').val($('#team1').text());
 	    $('#d2goals').val($('#team2').text());
+    },
+
+    resetTimers: function() {
+        $("#rPenalty1time").stopwatch('reset');
+        $("#rPenalty1time").stopwatch('stop');
+
+        $("#rPenalty2time").stopwatch('reset');
+        $("#rPenalty2time").stopwatch('stop');
+ 
+        $("#lPenalty1time").stopwatch('reset');
+        $("#lPenalty1time").stopwatch('stop');
+            
+        $("#lPenalty2time").stopwatch('reset');
+        $("#lPenalty2time").stopwatch('stop');
+
     }
 }
