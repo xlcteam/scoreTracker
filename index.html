@@ -92,18 +92,46 @@
                 else if (e.which === 3) { ST.teamBDown(); }
             });
 
+            function pad2(number) {
+                 return (number < 10 ? '0' : '') + number;
+            }
+
+            function penaltyFormat (millis, t) {
+              var seconds, minutes;
+              minutes = Math.floor(millis / 60000);
+              millis %= 60000;
+              seconds = Math.floor(millis / 1000);
+              millis = Math.floor(millis % 1000);
+              millis = Math.floor(millis / 10);
+
+              if (minutes == 1) {
+                t.stopwatch('reset');
+                t.stopwatch('stop');
+                return '-----';
+              }
+
+              return [pad2(minutes), pad2(seconds)].join(':') + ',' + pad2(millis);
+            }
 
             $('#rPenalty1').click(function(){
-              $("#rPenalty1time").stopwatch({updateInterval: 50}).stopwatch('start');
+              if ($("#rPenalty1time").text() == '-----')
+                $("#rPenalty1time").stopwatch({formatter: penaltyFormat,updateInterval: 50})
+                                  .stopwatch('start');
             });
             $('#rPenalty2').click(function(){
-              $("#rPenalty2time").stopwatch({updateInterval: 50}).stopwatch('start');
+              if ($("#rPenalty2time").text() == '-----')
+                $("#rPenalty2time").stopwatch({formatter: penaltyFormat,updateInterval: 50})
+                                  .stopwatch('start');
             });
             $('#lPenalty1').click(function(){
-              $("#lPenalty1time").stopwatch({updateInterval: 50}).stopwatch('start');
+              if ($("#lPenalty1time").text() == '-----')
+                $("#lPenalty1time").stopwatch({formatter: penaltyFormat,updateInterval: 50})
+                                  .stopwatch('start');
             });
             $('#lPenalty2').click(function(){
-              $("#lPenalty2time").stopwatch({updateInterval: 50}).stopwatch('start');
+              if ($("#lPenalty2time").text() == '-----')
+                $("#lPenalty2time").stopwatch({formatter: penaltyFormat,updateInterval: 50})
+                                 .stopwatch('start');
             });
 
 
@@ -180,12 +208,12 @@
         </div>
         <div class="leftPenalties">
           <div id="lPenalty1" class="penalty1">
-            Penalty 1
-            <span id="lPenalty1time"></span>
+            Penalty 1<br/>
+            <span id="lPenalty1time">-----</span>
           </div>
           <div id="lPenalty2" class="penalty2">
-            Penalty 2
-            <span id="lPenalty2time"></span>
+            Penalty 2 <br/>
+            <span id="lPenalty2time">-----</span>
           </div>
         </div>
       </div>
@@ -196,12 +224,12 @@
         </div>
         <div class="rightPenalties">
           <div id="rPenalty1" class="penalty1">
-            Penalty 1
-            <span id="rPenalty1time"></span>
+            Penalty 1<br/>
+            <span id="rPenalty1time">-----</span>
           </div>
           <div id="rPenalty2" class="penalty2">
-            Penalty 2
-            <span id="rPenalty2time"></span>
+            Penalty 2<br/>
+            <span id="rPenalty2time">-----</span>
           </div>
         </div>
       </div>

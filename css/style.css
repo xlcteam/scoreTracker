@@ -366,6 +366,7 @@ button:active {
 }
 
 .penalty1, .penalty2 {
+  text-align: center;
   width: 50%;
   position: relative;
   float: left;

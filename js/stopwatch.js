@@ -53,7 +53,7 @@ function pad2(number)
   return (number < 10 ? '0' : '') + number;                         
 }
 
-function format(millis) 
+function format(millis, t) 
 {                                              
   var seconds, minutes;                                              
   minutes = Math.floor(millis / 60000);                              
