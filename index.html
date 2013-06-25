@@ -93,6 +93,21 @@
             });
 
 
+            $('#rPenalty1').click(function(){
+              $("#rPenalty1time").stopwatch({updateInterval: 50}).stopwatch('start');
+            });
+            $('#rPenalty2').click(function(){
+              $("#rPenalty2time").stopwatch({updateInterval: 50}).stopwatch('start');
+            });
+            $('#lPenalty1').click(function(){
+              $("#lPenalty1time").stopwatch({updateInterval: 50}).stopwatch('start');
+            });
+            $('#lPenalty2').click(function(){
+              $("#lPenalty2time").stopwatch({updateInterval: 50}).stopwatch('start');
+            });
+
+
+
             $(".element1").bind("mouseover", fill1);
             $(".element1").bind("mouseout", unfill1);
             $(".element2").bind("mouseover", fill2);
@@ -168,7 +183,7 @@
             Penalty 1
             <span id="lPenalty1time"></span>
           </div>
-          <div id="lPenalty1" class="penalty2">
+          <div id="lPenalty2" class="penalty2">
             Penalty 2
             <span id="lPenalty2time"></span>
           </div>
