@@ -4,7 +4,6 @@ function scoreTracker(options)
     $this.team = 'Robot';
     $this.final_score = 0;
     $this.round_number = options['round_number'];
-
     $this.mins = 8;
     $this.secs = 0;
     $this.finished = false;
