@@ -133,6 +133,7 @@ scoreTracker.prototype = {
     },
 
     showD: function () {
+        $this.toggle();
 	    $('#dialogMain').show();    
 	    $("#dialog").dialog({ 
             buttons: {
