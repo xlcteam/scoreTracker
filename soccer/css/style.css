@@ -90,8 +90,8 @@ body {
 .leftBckg {
 	opacity: 0;
 	background-color: #006699;
-	width: 50%;
-	height: 80%;
+	width: 100%;
+	height: 90%;
 	float: left;
   position: relative;
 }
@@ -100,8 +100,8 @@ body {
   position: relative;
 	opacity: 0;
 	background-color: #006699;
-	width: 50%;
-	height: 80%;
+	width: 100%;
+	height: 90%;
 	float: right;
 }
 
@@ -377,3 +377,70 @@ button:active {
 
 }
 
+@media only screen and (min-width : 604px) and (max-width: 640px) and (orientation: landscape) {
+  #startAll, .startText {
+    font-size: 2.5em; 
+  } 
+
+  .name {
+    font-size: 2.2em;
+  }
+  .time {
+    font-size: 2.5em;
+    text-align: center;
+  }
+  .halftime {
+    font-size: 2.5em;
+  }
+
+  .goalRText, .goalLText {
+    font-size: 4em; 
+  }
+
+  .third {
+    width: 47%; 
+  }
+  .score, .colon {
+    font-size: 4em; 
+  }
+
+  .element2, .element1 {
+    width: auto !important; 
+  }
+}
+
+.leftSide {
+  width: 50%;
+  height: 80%;
+  position: relative;
+  float: left;
+}
+
+.rightSide {
+  width: 50%;
+  height: 80%;
+  position: relative;
+  float: left;
+}
+
+.leftPenalties, .rightPenalties {
+  height: 10%;
+  width: 100%;
+}
+
+.leftPenalties {
+  float: left;
+}
+
+.rightPenalties {
+  float: right;
+}
+
+.penalty1, .penalty2 {
+  font-size: 110%;
+  text-align: center;
+  width: 50%;
+  position: relative;
+  float: left;
+  height: 100%;
+}

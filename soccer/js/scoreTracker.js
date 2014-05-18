@@ -6,7 +6,7 @@ function scoreTracker(options)
     $this.scoreA = 0;
     $this.scoreB = 0;
 
-    $this.mins = 20;
+    $this.mins = 10;
     $this.secs = 0;
     $this.halftime = 1;
     $this.finished = false;
@@ -53,14 +53,16 @@ scoreTracker.prototype = {
 	        $("#team1").html($this.scoreA);
 	        if(document.forms['effects'][0].checked) {
 	            $this.scaling1 = 1;
-		        $("#team1").effect("scale", { percent: 150}, 500)
-			               .effect("scale", { percent: (100 / (150 / 100))}, 1000, function(){
-	                                                $this.scaling1 = 0;
+				$("#team1").animate({ fontSize: '1.5em'}, 500)
+                           .animate({ fontSize: '1em'}, 1000, function(){
+                                    $(this).css({'left': '0px', 'right': '0px', 'top': '0px', 'bottom': '0px'});        
+	                                $this.scaling1 = 0;
 	                        });
 	        }
         }
 
         this.syncMatch();
+        this.resetTimers();
     },
 
     teamBGoal: function (){
@@ -75,14 +77,16 @@ scoreTracker.prototype = {
 		    $("#team2").html($this.scoreB);
 		    if(document.forms['effects'][0].checked) {
 			    $this.scaling2 = 1;
-			    $("#team2").effect("scale", { percent: 150}, 500)
-				           .effect("scale", { percent: 100 / (150 / 100)}, 1000, function(){
-											        $this.scaling2 = 0;
+				$("#team2").animate({ fontSize: '1.5em'}, 500)
+                           .animate({ fontSize: '1em'}, 1000, function(){
+                                    $(this).css({'left': '0px', 'right': '0px', 'top': '0px', 'bottom': '0px'});        
+								    $this.scaling2 = 0;
 			                });
 		    }
 	    }
 
         this.syncMatch();
+        this.resetTimers();
     },
 
     teamADown: function (){
@@ -101,15 +105,17 @@ scoreTracker.prototype = {
 			    if(document.forms['effects'][0].checked) {
 				    $this.scaling1 = 1;	
                     //soundPlay("whistle");
-				    $("#team1").effect("scale", { percent: 150}, 500)
-		                 	   .effect("scale", { percent: Math.ceil(100 / (150 / 100))}, 1000, function(){
-                        	                            $this.scaling1 = 0;
+				    $("#team1").animate({ fontSize: '1.5em'}, 500)
+				               .animate({ fontSize: '1em'}, 1000, function(){
+                                    $(this).css({'left': '0px', 'right': '0px', 'top': '0px', 'bottom': '0px'});        
+                        	        $this.scaling1 = 0;
 						        });
 			    }
 		    }
 	    }
 
         this.syncMatch();
+        this.resetTimers();
     },
 
     teamBDown: function (){
@@ -127,15 +133,17 @@ scoreTracker.prototype = {
 			    if(document.forms['effects'][0].checked) {
 				    $this.scaling2 = 1;
                     //soundPlay("whistle");
-				    $("#team2").effect("scale", { percent: 150}, 500)
-				               .effect("scale", { percent: Math.ceil(100 / (150 / 100))}, 1000, function(){
-													    $this.scaling2 = 0
+				    $("#team2").animate({ fontSize: '1.5em'}, 500)
+				               .animate({ fontSize: '1em'}, 1000, function(){
+                                    $(this).css({'left': '0px', 'right': '0px', 'top': '0px', 'bottom': '0px'});        
+								    $this.scaling2 = 0
 							    });
 			    }
 		    }
 	    }
 
         this.syncMatch();
+        this.resetTimers();
     },
 
     resetScore: function (){
@@ -195,6 +203,73 @@ scoreTracker.prototype = {
         $this.halftime = 1;
 	
         return;
+    },
+
+    resetTimers: function() {
+
+        function pad2(number) {
+             return (number < 10 ? '0' : '') + number;
+        }
+
+        function penaltyFormat (millis, t) {
+          var seconds, minutes;
+          minutes = Math.floor(millis / 60000);
+          millis %= 60000;
+          seconds = Math.floor(millis / 1000);
+          millis = Math.floor(millis % 1000);
+          millis = Math.floor(millis / 10);
+
+          if (seconds == 59 && millis > 50) {
+            t.stopwatch('reset');
+            t.stopwatch('stop');
+            return '-----';
+          }
+
+          return [pad2(minutes), pad2(seconds)].join(':') + ',' + pad2(millis);
+        }
+
+        
+        $("#lPenalty1time").stopwatch().stopwatch('destroy');
+        $("#lPenalty1time").text('-----');
+        $("#lPenalty2time").stopwatch().stopwatch('destroy');
+        $("#lPenalty2time").text('-----');
+        $("#rPenalty1time").stopwatch().stopwatch('destroy');
+        $("#rPenalty1time").text('-----');
+        $("#rPenalty2time").stopwatch().stopwatch('destroy');
+        $("#rPenalty2time").text('-----');
+
+        $('#rPenalty1').click(function(){
+          if ($("#rPenalty1time").text() == '-----') {
+                $("#rPenalty1time").stopwatch().stopwatch('destroy');
+                $("#rPenalty1time").stopwatch({formatter: penaltyFormat,updateInterval: 50})
+                              .stopwatch('start');
+          }
+            
+        });
+        $('#rPenalty2').click(function(){
+          if ($("#rPenalty2time").text() == '-----') {
+            $("#rPenalty2time").stopwatch().stopwatch('destroy');
+            $("#rPenalty2time").stopwatch({formatter: penaltyFormat,updateInterval: 50})
+                              .stopwatch('start');
+
+          }
+        });
+
+        $('#lPenalty1').click(function(){
+          if ($("#lPenalty1time").text() == '-----') {
+            $("#lPenalty1time").stopwatch().stopwatch('destroy');
+            $("#lPenalty1time").stopwatch({formatter: penaltyFormat,updateInterval: 50})
+                              .stopwatch('start');
+
+          }
+        });
+        $('#lPenalty2').click(function(){
+          if ($("#lPenalty2time").text() == '-----') {
+            $("#lPenalty2time").stopwatch().stopwatch('destroy');
+            $("#lPenalty2time").stopwatch({formatter: penaltyFormat,updateInterval: 50})
+                             .stopwatch('start');
+          }
+        });
     },
 
     newTime: function (){
@@ -269,22 +344,24 @@ scoreTracker.prototype = {
             "Send results": function() {
                 var df = confirm("Are you sure you want to save these results?\n\n" +
                     $this.teamA + ' ' +
-                    $this.scoreA + " : " + $this.scoreB + ' ' +
+                    $('#dgoals').val() + " : " + $('#d2goals').val() + ' ' +
                     $this.teamB);
 
-                if (df)
+                if (df) {
+                    window.onbeforeunload = function(){};
                     $('#dialogForm').submit();  
-                else 
+                } else {
                     return;
+                }
 
                 }	
             },
             width: 500,
             height: 250
         });
-	    $('#dname').html($('#name1').text());
-	    $('#d2name').html($('#name2').text());
-	    $('#dgoals').val($('#team1').text());
-	    $('#d2goals').val($('#team2').text());
+	    $('#dname').html($this.teamA);
+	    $('#d2name').html($this.teamB);
+	    $('#dgoals').val($this.scoreA);
+	    $('#d2goals').val($this.scoreB);
     }
 }

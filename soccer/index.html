@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title> scoreTracker - soccer</title>
+    <title> scoreBoard - soccer </title>
     <meta http-equiv="Content-Language" content="en-EN">
 
     <script src="js/lib/jquery.js"></script>
@@ -12,21 +12,21 @@
     <script src="js/scoreTracker.js"></script>
     <script src="js/fills.js"></script>
     <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="css/jquery-ui.css" type="text/css"/>
-
+    <link rel="stylesheet" href="css/jquery-ui.css"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
     <script>
             window.onbeforeunload = function(){
                     if (window.finished)
                         return;
                     else
-                        return 'Are you sure you want to quit?';
+                        return 'The will not be saved. Are you sure you want to quit?';
             }
     </script>
 
     <script>
         var ST = new scoreTracker({
-          'update_url':  "{% url match_play match_id %}",
-          'back_url': "{% url index %}"
+          'update_url':  "{% url soccer.views.match_play match_id %}",
+          'back_url': "{% url soccer.views.index_soccer %}"
         });
 
         $(document).ready(function() {
@@ -50,8 +50,8 @@
             });
 
             $(document).bind("idle.idleTimer", function() {
-              $("#main").fadeOut("slow");
-              $("#underMain").fadeOut("slow");
+            //$("#main").fadeOut("slow");
+            //$("#underMain").fadeOut("slow");
             });
 
             $(document).keylock({
@@ -68,8 +68,8 @@
 
 
             $(document).bind("active.idleTimer", function() {
-                $("#main").fadeIn("slow");
-                $("#underMain").fadeIn("slow");
+              //$("#main").fadeIn("slow");
+              //$("#underMain").fadeIn("slow");
             });
 
             $(".btn-slide").click(function(){
@@ -94,6 +94,9 @@
             });
 
 
+
+            ST.resetTimers();
+
             $(".element1").bind("mouseover", fill1);
             $(".element1").bind("mouseout", unfill1);
             $(".element2").bind("mouseover", fill2);
@@ -107,6 +110,15 @@
             $(".rightBckg").bind("mouseout", unfill2);
             $(".startBckg").bind("mouseover", fill3);
             $(".startBckg").bind("mouseout", unfill3);
+
+            $(".penalty1, .penalty2").mouseover(function(){
+              $(this).css('background-color', '#c78a35');
+              $(this).css('color', 'black');
+            });
+            $(".penalty1, .penalty2").mouseout(function(){
+              $(this).css('background-color', 'black');
+              $(this).css('color', 'white');
+            });
 		});
 
 
@@ -115,8 +127,8 @@
 </head>
 <body>
     <audio id="whistle" no-controls preload='auto'>
-      <source src="js/sound/whistle.ogg" />
-      <source src="js/sound/whistle.mp3" />
+      <source src="{{ STATIC_URL }}/js/sound/whistle.ogg" />
+      <source src="{{ STATIC_URL }}/js/sound/whistle.mp3" />
     </audio>
     <div id="startAll" onclick="ST.startMatch()">
       <div id="startText">Start match</div>
@@ -128,13 +140,12 @@
         		<li><a href="#fragment-1"><span>Settings</span></a></li>
         		<li><a href="#fragment-2"><span>ADV Settings</span></a></li>
     			</ul>
-
 					<div id="fragment-1">
 						<div class="placeholder"><button id="btnResetTime" onclick="ST.resetTime()">Reset Time</button></div>
 						<div class="placeholder"><button id="btnResetScore" onclick="ST.resetScore()">Reset Score</button></div>
 						<div class="placeholder2">
 							<form name="frmtime">
-								<center>Time: <input class="input" type="text" id="fmins" value="20"/>
+								<center>Time: <input class="input" type="text" id="fmins" value="10"/>
 								: <input class="input" type="text" id="fsecs" value="00"/>
 									<input type="button" onclick="ST.newTime()" value="Set time"/> <br />
 									<span class="saved">Saved!</span></center>
@@ -146,8 +157,8 @@
 						<div class="placeholder3">
 							<form name="effects">
 								<b>Effects:</b>
-								<input type="radio" name="effgroup" value="ON" checked>ON</input>
-								<input type="radio" name="effgroup" value="OFF">OFF</input>
+								<input type="radio" name="effgroup" value="ON" checked>ON
+								<input type="radio" name="effgroup" value="OFF">OFF
 							</form>
 						</div>
 						<div class="placeholder3">
@@ -160,12 +171,37 @@
 		</div>
 
 		<div id="main">
-			<div class="leftBckg">
-				<span class="goalLText">Goal!</span>
-			</div>
-			<div class="rightBckg">
-				<span class="goalRText">Goal!</span>
-			</div>
+      <div class="leftSide">
+        <div class="leftBckg">
+          <span class="goalLText">Goal!</span>
+        </div>
+        <div class="leftPenalties">
+          <div id="lPenalty1" class="penalty1">
+            Damaged robot 1<br/>
+            <span id="lPenalty1time">-----</span>
+          </div>
+          <div id="lPenalty2" class="penalty2">
+            Damaged robot 2 <br/>
+            <span id="lPenalty2time">-----</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rightSide">
+        <div class="rightBckg">
+          <span class="goalRText">Goal!</span>
+        </div>
+        <div class="rightPenalties">
+          <div id="rPenalty1" class="penalty1">
+            Damaged robot 1<br/>
+            <span id="rPenalty1time">-----</span>
+          </div>
+          <div id="rPenalty2" class="penalty2">
+            Damaged robot 2<br/>
+            <span id="rPenalty2time">-----</span>
+          </div>
+        </div>
+      </div>
       <div class="startBckg" onclick="ST.toggle()">
 				<span id="btnStart" class="startText">Start</span>
       </div>
@@ -175,7 +211,8 @@
 		<div id="dialogMain">
 			<div id="dialog" title="Results" style="font-size:50.5%;">
 				<div style="margin: 0 auto;height: 70px; font-size:130.5%;">
-          <form action="" method="POST" id="dialogForm">
+          <form action="{% url soccer.views.match_save match_id %}" method="POST" id="dialogForm">
+              {% csrf_token %}
                     <table style="width: 270px; margin: 0 auto;">
                       <tr>
                         <td style="width: 100px; text-align: right;"> <span id="dname"></span> </td>
@@ -190,7 +227,7 @@
                    <table style="padding-top: 40px;">
                       <tr>
                         <td>Your password: </td>
-                        <td><input type="password" name="pass" /> </td>
+                        <td><input type="password" name="password" /> </td>
                       </tr>
                    </table>
                     <input type="hidden" name="final" value="true" />
@@ -207,12 +244,12 @@
       <div class="third score"><span class="element1" id="team1" style="display: inline-block;">0</span></div>
       <div class="colon"><span class="element">:</span></div>
       <div class="third score"><span class="element2" id="team2" style="display: inline-block;">0</span></div>
-      <dic style="clear:both;"></div>
+      <div style="clear:both;"></div>
     </div>
     <div id="timeBar" class="element3">
 			<div id="time" class="time"><span >00:00,00</span></div>
 		</div>
 		<div id="halftime" class="halftime"><span>1.</span></div>
     <div style="clear: both;"></div>
-	</body>
+  </body>
 </html>
